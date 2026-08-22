@@ -1,17 +1,36 @@
 ---
-
+import '../styles/global.css'
+import { gsap } from 'gsap'
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href="" />
+		<link rel="icon" href="" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1 class="text-amber-800 text-6xl">Astro</h1>
 	</body>
+
+
+<section class="flex h-screen items-center justify-center bg-black">
+  <h1 id="gsap-test" class="text-4xl font-bold text-green-500">
+    GSAP funcionando 🚀
+  </h1>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  gsap.from("#gsap-test", {
+    opacity: 0,
+    y: -50,
+    duration: 1.5,
+    ease: "power2.out"
+  });
+</script>
 </html>
