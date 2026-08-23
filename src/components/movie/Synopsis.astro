@@ -1,0 +1,246 @@
+---
+---
+
+<section class="synopsis">
+    <div class="synopsis-container">
+        <!-- IMAGEN -->
+        <div class="synopsis-image-wrapper">
+            <img
+                src="/images/movie/doomsday-synopsis.png"
+                alt="Avengers: Doomsday"
+                class="synopsis-image"
+            />
+        </div>
+
+
+        <!-- CONTENIDO -->
+        <div class="synopsis-content">
+            <!-- TÍTULO -->
+            <div class="title-block">
+                <span class="eyebrow">
+                    MARVEL STUDIOS
+                </span>
+                <h2>
+                    AVENGERS:
+                    <span>DOOMSDAY</span>
+                </h2>
+            </div>
+
+            <!-- SINOPSIS -->
+            <div class="synopsis-text">
+                <h3> SINOPSIS</h3>
+                <p>
+                    Tras la crisis del multiverso, Avengers: Doomsday presenta una alianza desesperada de héroes, liderada por Vengadores, 
+                    X-Men y los Cuatro Fantásticos, frente a la amenaza de Victor von Doom, quien comparte el rostro de Tony Stark y busca 
+                    reestructurar la realidad bajo su dominio. Utilizando tanto ciencia como magia, Doom traiciona a los héroes y fusiona 
+                    los universos en un nuevo mundo distópico, forzando a los supervivientes a iniciar una última resistencia.
+                </p>
+            </div>
+
+            <!-- INFORMACIÓN -->
+            <div class="movie-credits">
+                <!-- DIRECTOR -->
+                <div class="credit">
+                    <span class="credit-label">DIRECTOR</span>
+                    <h4>Anthony Russo</h4>
+                </div>
+                <!-- ESCRITORES -->
+                <div class="credit">
+                    <span class="credit-label"> ESCRITORES </span>
+                    <h4>Stephen McFeely</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    /* =========================================
+    SECTION
+    ========================================= */
+    .synopsis {
+        width: 100%;
+        padding: 4rem 0;
+    }
+
+    .synopsis-container {
+        display: grid;
+        grid-template-columns:
+            minmax(280px, 0.9fr)
+            minmax(320px, 1.1fr);
+        gap: clamp(2rem, 5vw, 6rem);
+        max-width: 1100px;
+        margin: 0 auto;
+        align-items: center;
+    }
+
+    /* =========================================
+    IMAGE
+    ========================================= */
+    .synopsis-image-wrapper {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        background: #111;
+        border-radius: 4px;
+    }
+
+    .synopsis-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition:
+            transform 0.6s ease;
+    }
+
+    .synopsis-image-wrapper:hover .synopsis-image {
+        transform: scale(1.04);
+    }
+
+    /* =========================================
+    CONTENT
+    ========================================= */
+    .synopsis-content {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+    }
+
+    /* =========================================
+    TITLE
+    ========================================= */
+    .title-block {
+        border-left: 3px solid #05a85c;
+
+        padding-left: 1.25rem;
+    }
+
+    .eyebrow {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        letter-spacing: 0.35em;
+        color: #05a85c;
+    }
+
+    .title-block h2 {
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        line-height: 0.95;
+        letter-spacing: 0.05em;
+        color: white;
+    }
+
+    .title-block h2 span {
+        display: block;
+    }
+
+    /* =========================================
+    SYNOPSIS TEXT
+    ========================================= */
+    .synopsis-text h3 {
+        margin: 0 0 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        color: #05a85c;
+    }
+
+    .synopsis-text p {
+        max-width: 650px;
+        margin: 0;
+        font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+        line-height: 1.9;
+        color: #a1a1aa;
+    }
+
+    /* =========================================
+    CREDITS
+    ========================================= */
+    .movie-credits {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .credit {
+        min-width: 0;
+    }
+
+    .credit-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.65rem;
+        font-weight: 700;
+        letter-spacing: 0.25em;
+        color: #71717a;
+    }
+
+    .credit h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: white;
+    }
+
+    /* =========================================
+    TABLET
+    ========================================= */
+    @media (max-width: 900px) {
+        .synopsis-container {
+            grid-template-columns:
+                minmax(240px, 0.8fr)
+                minmax(280px, 1.2fr);
+            gap: 2.5rem;
+        }
+    }
+
+    /* =========================================
+    MOBILE
+    ========================================= */
+    @media (max-width: 700px) {
+        .synopsis {
+            padding: 3rem 0;
+        }
+        .synopsis-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            width: 100%;
+        }
+        .synopsis-image-wrapper {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 16 / 10;
+            margin: 0 auto;
+        }
+        .synopsis-content {
+            width: 100%;
+            gap: 2rem;
+        }
+        .title-block h2 {
+            font-size: clamp(2rem, 10vw, 3rem);
+        }
+        .synopsis-text p {
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+    }
+
+    /* =========================================
+    MOBILE PEQUEÑO
+    ========================================= */
+    @media (max-width: 420px) {
+        .movie-credits {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+</style>
