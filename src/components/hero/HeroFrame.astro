@@ -1,0 +1,97 @@
+<div class="border-frame">
+    <!-- Íconos en esquinas -->
+    <button class="corner-icon top-left">
+        <img src="/icons/menu.svg" alt="Facebook" class="icon-svg" />
+    </button>
+
+    <button class="corner-icon top-right">
+        <img src="/icons/facebook.svg" alt="Facebook" class="icon-svg" />
+    </button>
+
+    <button class="corner-icon top-right2">
+        <img src="/icons/instagram.svg" alt="Instagram" class="icon-svg" />
+    </button>
+
+    <button class="corner-icon bottom-left">
+        <img src="/icons/boleto.svg" alt="Movie" class="icon-svg" />
+    </button>
+
+    <button class="corner-icon bottom-right">
+        <img src="/icons/video.svg" alt="Trailer" class="icon-svg" />
+    </button>
+
+    <!-- Líneas horizontales -->
+    <div class="frame-line top"></div>
+    <div class="frame-line bottom"></div>
+
+    <!-- Líneas verticales -->
+    <div class="frame-line left"></div>
+    <div class="frame-line right"></div>
+</div>
+
+<style>
+    .border-frame {
+        position: absolute;
+        inset: clamp(20px, 3vw, 40px);
+        pointer-events: none;
+        z-index: 10;
+    }
+
+    /* Líneas horizontales */
+    .frame-line.top,
+    .frame-line.bottom {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: #05a85c;
+    }
+    .frame-line.top { top: 0; }
+    .frame-line.bottom { bottom: 0; }
+
+    /* Líneas verticales */
+    .frame-line.left,
+    .frame-line.right {
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        width: 2px;
+        background: #05a85c;
+    }
+    .frame-line.left { left: 0; }
+    .frame-line.right { right: 0; }
+
+    /* Botones esquinas */
+    .corner-icon {
+        position: absolute;
+        color: #05a85c;
+        background: none;
+        border: none;
+        cursor: pointer;
+        pointer-events: auto;
+        transition: transform 0.3s ease, color 0.3s ease, filter 0.3s ease;
+        z-index: 1;
+    }
+    .corner-icon:hover {
+        transform: scale(1.2) rotate(10deg);
+        color: #22c55e;
+    }
+
+    /* Posiciones */
+    .corner-icon.top-left { top: -0.8rem; left: 0; }
+    .corner-icon.top-right { top: -0.8rem; right: 0; }
+    .corner-icon.top-right2 { top: -0.8rem; right: 3rem; } /* corrige posición */
+    .corner-icon.bottom-left { bottom: -0.8rem; left: 0; }
+    .corner-icon.bottom-right { bottom: -0.8rem; right: 0; }
+
+    /* SVG dentro de botones */
+    .icon-svg {
+        width: 2rem;
+        height: 2rem;
+        filter: invert(47%) sepia(92%) saturate(356%) hue-rotate(90deg) brightness(95%) contrast(90%);
+        transition: filter 0.3s ease;
+    }
+    .corner-icon:hover .icon-svg {
+        filter: invert(62%) sepia(92%) saturate(356%) hue-rotate(90deg) brightness(120%) contrast(100%);
+    }
+</style>

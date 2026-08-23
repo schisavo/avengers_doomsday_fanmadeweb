@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css'
-import { gsap } from 'gsap'
+import Hero from '../components/hero/Hero.astro'
 ---
 
 <html lang="en">
@@ -13,24 +13,9 @@ import { gsap } from 'gsap'
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1 class="text-amber-800 text-6xl">Astro</h1>
+		<!-- Hero -->
+        <Hero />
+	
+	
 	</body>
-
-
-<section class="flex h-screen items-center justify-center bg-black">
-  <h1 id="gsap-test" class="text-4xl font-bold text-green-500">
-    GSAP funcionando 🚀
-  </h1>
-</section>
-
-<script>
-  import { gsap } from "gsap";
-
-  gsap.from("#gsap-test", {
-    opacity: 0,
-    y: -50,
-    duration: 1.5,
-    ease: "power2.out"
-  });
-</script>
 </html>
