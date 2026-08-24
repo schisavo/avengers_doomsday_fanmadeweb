@@ -1,0 +1,330 @@
+---
+import { gsap } from "gsap";
+---
+<!-- Ventana de Carga de las Incursiones -->
+<!-- 
+    El efecto ocurre asi:
+        1. Se asignan las posiciones a los planetas "data-incursion-ball"
+        2. El timeline empieza a correr indicando el tiempo que recurira todo 
+        3. Se dibujan los planetas
+        4. Se mueven al punto de colision (data-incursion-core)  
+        5. Efecto de atraccion al punto de colision (data-incursion-core)  
+        6. Tension antes del impacto
+        7. Colision en el punto de colision (data-incursion-core)  
+        8. Nucleo de energia
+        9. Flash 
+        10. Onda expansiva
+        11. Explosion del aura
+-->
+<div
+    id="preloader"
+    class="fixed inset-0 z-15 flex items-center justify-center overflow-hidden bg-black"
+    aria-hidden="true">
+    <!-- Aura central: Dibujo de la explosion alrededor de punto de colision -->
+    <div
+        class="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl"
+        data-incursion-glow>
+    </div>
+    <!-- Punto de colision: Punto donde se encuentran los planetas se encuentran -->
+    <div
+        class="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300 opacity-0"
+        data-incursion-core>
+    </div>
+    <!-- Las tres incursiones: Planetas que colisionan (3) -->
+    <div
+        class="relative h-40 w-40"
+        data-incursion-stage>
+        <div
+            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball>
+        </div>
+        <div
+            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball>
+        </div>
+        <div
+            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball>
+        </div>
+    </div>
+    <!-- Flash de la colision -->
+    <div
+        class="pointer-events-none absolute inset-0 bg-emerald-400 opacity-0"
+        data-incursion-flash>
+    </div>
+    <!-- Onda expansiva -->
+    <div
+        class="pointer-events-none absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300 opacity-0"
+        data-incursion-wave>
+    </div>
+</div>
+
+<script>
+    import { gsap } from "gsap";
+
+    const initIncursionLoader = () => {
+        const preloader =
+        document.querySelector<HTMLElement>("#preloader");
+
+        if (!preloader) return;
+
+        const balls = gsap.utils.toArray<HTMLElement>(
+            "[data-incursion-ball]"
+        );
+
+        const glow =
+            document.querySelector<HTMLElement>(
+                "[data-incursion-glow]"
+        );
+
+        const core =
+            document.querySelector<HTMLElement>(
+                "[data-incursion-core]"
+        );
+
+        const flash =
+            document.querySelector<HTMLElement>(
+                "[data-incursion-flash]"
+        );
+
+        const wave =
+            document.querySelector<HTMLElement>(
+                "[data-incursion-wave]"
+        );
+
+        if (balls.length !== 3 || !glow || !core || !flash || !wave ) {
+            return;
+        }
+
+    /*
+    =====================================================
+    1. POSICIONES INICIALES
+    =====================================================
+        Cada planeta viene de una direccion diferente.
+     */
+    const positions = [
+        /* Planeta 1 Posicion Inicial */
+        { x: -180, y: -120, rotation: -25, },
+        /* Planeta 2 Posicion Inicial */
+        { x: 190, y: -80, rotation: 30, },
+        /* Planeta 3 Posicion Inicial */
+        { x: 40, y: 180, rotation: 15, },
+    ];
+        /* En orden de dibujo se asigna la posicion a cada planeta */
+        balls.forEach((ball, index) => {
+            const position = positions[index];
+
+            gsap.set(ball, {
+                x: position.x,
+                y: position.y,
+                scale: 0,
+                opacity: 0,
+            });
+        });
+    /*
+     * =====================================================
+     * 2. TIMELINE
+     * =====================================================
+     */
+    const tl = gsap.timeline({
+        defaults: {
+            overwrite: "auto",
+        },
+        onComplete: () => {
+            gsap.to(preloader, {
+                autoAlpha: 0,
+                duration: 0.7,
+                ease: "power2.inOut",
+
+                onComplete: () => {
+                    preloader.remove();
+                },
+            });
+        },
+    });
+    /*
+     * =====================================================
+     * 3. APARECEN LAS TRES INCURSIONES
+     * =====================================================
+     */
+    tl.to(
+        balls,
+        {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            stagger: 0.12,
+            ease: "back.out(1.7)",
+        }
+    );
+    /*
+     * =====================================================
+     * 4. SE MUEVEN HACIA EL CENTRO
+     * =====================================================
+     *
+     * Cada una tiene una trayectoria ligeramente distinta.
+     */
+        /* Planeta 1 */
+        tl.to(
+            balls[0],
+            {
+                x: -75,
+                y: -45,
+                duration: 0.7,
+                ease: "power3.inOut",
+            },
+            "<"
+        );
+        /* Planeta 2 */
+        tl.to(
+            balls[1],
+            {
+                x: 70,
+                y: -35,
+                duration: 0.75,
+                ease: "power3.inOut",
+            },
+            "<"
+        );
+        /* Planeta 3 */
+        tl.to(
+            balls[2],
+            {
+                x: 15,
+                y: 70,
+                duration: 0.72,
+                ease: "power3.inOut",
+            },
+            "<"
+        );
+    /*
+     * =====================================================
+     * 5. ACELERACION FINAL
+     * =====================================================
+     *
+     * Aquí deben sentirse como si fueran atraídas.
+     */
+        tl.to(
+            balls,
+            {
+                x: 0,
+                y: 0,
+                duration: 0.45,
+                ease: "power4.in",
+                stagger: 0.02,
+            }
+        );
+    /*
+     * =====================================================
+     * 6. PEQUEÑA TENSION ANTES DEL IMPACTO
+     * =====================================================
+     */
+        tl.to(
+            balls,
+            {
+                scale: 1.25,
+                duration: 0.12,
+                ease: "power2.out",
+            }
+        );
+    /*
+     * =====================================================
+     * 7. COLISION
+     * =====================================================
+     */
+        tl.to(
+            balls,
+            {
+                scale: 0,
+                duration: 0.16,
+                ease: "power4.in",
+            }
+        );
+    /*
+     * =====================================================
+     * 8. NUCLEO DE ENERGIA
+     * =====================================================
+     */
+        tl.to(
+            core,
+            {
+                scale: 8,
+                opacity: 1,
+                duration: 0.18,
+                ease: "power3.out",
+            },
+            "<"
+        );
+    /*
+     * =====================================================
+     * 9. FLASH
+     * =====================================================
+     */
+        tl.to(
+            flash,
+            {
+                opacity: 0.75,
+                duration: 0.08,
+                ease: "power2.out",
+            },
+            "<"
+        );
+        tl.to(
+            flash,
+            {
+                opacity: 0,
+                duration: 0.3,
+                ease: "power2.out",
+            }
+        );
+    /*
+     * =====================================================
+     * 10. ONDA EXPANSIVA
+     * =====================================================
+     */
+        tl.to(
+            wave,
+            {
+                scale: 120,
+                opacity: 0.8,
+                duration: 0.7,
+                ease: "power3.out",
+            },
+            "<"
+        );
+        tl.to(
+            wave,
+            {
+                opacity: 0,
+                duration: 0.25,
+            },
+            "<0.45"
+        );
+    /*
+     * =====================================================
+     * 11. EXPLOSIÓN DEL AURA
+     * =====================================================
+     */
+
+        tl.to(
+            glow,
+            {
+                scale: 8,
+                opacity: 0,
+                duration: 0.7,
+                ease: "power3.out",
+            },
+            "<"
+        );
+    };
+
+    if (document.readyState === "loading") {
+        document.addEventListener(
+            "DOMContentLoaded",
+            initIncursionLoader,
+            { once: true }
+        );
+    } else {
+        initIncursionLoader();
+    }
+</script>
