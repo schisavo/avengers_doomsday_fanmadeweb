@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css'
-import { gsap } from 'gsap'
+import Preloader from '../components/preloader/Preloader.astro'
+import Hero from '../components/hero/Hero.astro'
+import MovieInfo from '../components/movie/MovieInfo.astro'
 ---
 
 <html lang="en">
@@ -13,24 +15,11 @@ import { gsap } from 'gsap'
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1 class="text-amber-800 text-6xl">Astro</h1>
+		<Preloader />
+		
+		<!-- Hero - Presentation Section: Paralax effect, words effect, frame effect -->
+        <Hero />
+		<!-- Movie info: trailer, sypnosis, cast, crew,  -->
+		<MovieInfo />
 	</body>
-
-
-<section class="flex h-screen items-center justify-center bg-black">
-  <h1 id="gsap-test" class="text-4xl font-bold text-green-500">
-    GSAP funcionando 🚀
-  </h1>
-</section>
-
-<script>
-  import { gsap } from "gsap";
-
-  gsap.from("#gsap-test", {
-    opacity: 0,
-    y: -50,
-    duration: 1.5,
-    ease: "power2.out"
-  });
-</script>
 </html>
