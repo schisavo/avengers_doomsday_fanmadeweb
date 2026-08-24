@@ -1,5 +1,5 @@
 <div class="border-frame">
-    <!-- Íconos en esquinas -->
+    <!-- Icons in the corners -->
     <button class="corner-icon top-left">
         <img src="/icons/menu.svg" alt="Facebook" class="icon-svg" />
     </button>
@@ -20,11 +20,11 @@
         <img src="/icons/video.svg" alt="Trailer" class="icon-svg" />
     </button>
 
-    <!-- Líneas horizontales -->
+    <!-- Horizontal lines -->
     <div class="frame-line top"></div>
     <div class="frame-line bottom"></div>
 
-    <!-- Líneas verticales -->
+    <!-- Vertical lines -->
     <div class="frame-line left"></div>
     <div class="frame-line right"></div>
 </div>
@@ -36,8 +36,7 @@
         pointer-events: none;
         z-index: 10;
     }
-
-    /* Líneas horizontales */
+    /* Horizontal lines */
     .frame-line.top,
     .frame-line.bottom {
         position: absolute;
@@ -49,7 +48,7 @@
     .frame-line.top { top: 0; }
     .frame-line.bottom { bottom: 0; }
 
-    /* Líneas verticales */
+    /* Vertical lines */
     .frame-line.left,
     .frame-line.right {
         position: absolute;
@@ -61,7 +60,7 @@
     .frame-line.left { left: 0; }
     .frame-line.right { right: 0; }
 
-    /* Botones esquinas */
+    /* Corners Buttons */
     .corner-icon {
         position: absolute;
         color: #05a85c;
@@ -77,14 +76,12 @@
         color: #22c55e;
     }
 
-    /* Posiciones */
+    /* Corner Buttons Positions */
     .corner-icon.top-left { top: -0.8rem; left: 0; }
     .corner-icon.top-right { top: -0.8rem; right: 0; }
-    .corner-icon.top-right2 { top: -0.8rem; right: 3rem; } /* corrige posición */
+    .corner-icon.top-right2 { top: -0.8rem; right: 3rem; }
     .corner-icon.bottom-left { bottom: -0.8rem; left: 0; }
     .corner-icon.bottom-right { bottom: -0.8rem; right: 0; }
-
-    /* SVG dentro de botones */
     .icon-svg {
         width: 2rem;
         height: 2rem;
