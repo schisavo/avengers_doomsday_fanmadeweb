@@ -7,14 +7,14 @@ import HeroBackground from "./HeroBackground.astro"
 <section
     class="hero relative h-screen w-full overflow-hidden bg-black"
     data-parallax-hero>
-    <!-- Borde Hero -->
+    <!-- Hero Frame -->
     <HeroFrame />
-    <!-- Frases mágicas -->
+    <!-- Magic Words effect -->
     <HeroText />
-    <!-- Parallax -->
+    <!-- Parallax effect -->
     <HeroBackground />
 
-    <!-- BOTÓN SCROLL -->
+    <!-- Scroll Button -->
     <a
         href="#movie-info"
         class="scroll-button"
@@ -27,10 +27,10 @@ import HeroBackground from "./HeroBackground.astro"
 
 <style>
     .hero {
-        position: absolute;
+        position: relative;
     }
 
-    /* Boton Descubrir */
+    /* Scroll Button */
     .scroll-button {
         position: absolute;
         left: 50%;

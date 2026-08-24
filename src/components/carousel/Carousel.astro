@@ -1,0 +1,148 @@
+---
+import PeopleCarouselHeader from "./CarouselHeader.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  items: any[];
+  cardComponent: any;
+
+  /**
+   * Mostrar u ocultar filtros.
+   */
+  showFilters?: boolean;
+
+  /**
+   * Propiedad usada para generar los filtros.
+   *
+   * Ejemplo:
+   * filterBy="team"
+   */
+  filterBy?: string;
+}
+
+const {
+  title,
+  description,
+  items,
+  cardComponent: Card,
+  showFilters = false,
+  filterBy,
+} = Astro.props;
+
+const filters =
+  showFilters && filterBy
+    ? [
+        ...new Set(
+          items
+            .map((item) => item[filterBy])
+            .filter(Boolean)
+        ),
+      ]
+    : [];
+---
+
+<section
+  class="w-full overflow-hidden py-8"
+  aria-label={title}
+  data-people-carousel
+>
+  <PeopleCarouselHeader
+    title={title}
+    description={description}
+    showFilters={showFilters}
+    filters={filters}
+  />
+
+  <!-- VIEWPORT -->
+  <div
+    data-people-viewport
+    tabindex="0"
+    class="scrollbar-hide relative overflow-x-auto overflow-y-hidden px-4 pb-5 outline-none sm:px-6 lg:px-8"
+  >
+    <!-- TRACK -->
+    <div
+      data-people-track
+      class="flex w-max gap-4 md:gap-5 lg:gap-6"
+    >
+      {
+        items.map((item) => {
+          const filterValue =
+            filterBy && item[filterBy]
+              ? item[filterBy]
+              : "";
+
+          return (
+            <div
+              data-people-member
+              data-filter-value={filterValue}
+              class="shrink-0"
+            >
+              <Card member={item} />
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <!-- DOTS -->
+  <div
+    class="mt-2 flex justify-center gap-1.5"
+    data-people-dots
+  >
+    {
+      items.map((_, index) => (
+        <button
+          type="button"
+          data-people-dot={index}
+          aria-label={`Ir al elemento ${index + 1}`}
+          class:list={[
+            "h-1.5 rounded-full transition-all duration-300",
+            index === 0
+              ? "w-6 bg-[#05a85c]"
+              : "w-1.5 bg-white/20",
+          ]}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<script>
+  import "../../lib/carousel/carousel";
+</script>
+
+<style>
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-people-viewport] img {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  [data-people-viewport] {
+    cursor: grab;
+    touch-action: pan-y;
+  }
+
+  [data-people-viewport]:active {
+    cursor: grabbing;
+  }
+
+  [data-people-filters] {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  [data-people-filters]::-webkit-scrollbar {
+    display: none;
+  }
+</style>
