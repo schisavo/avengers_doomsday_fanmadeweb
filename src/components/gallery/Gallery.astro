@@ -1,0 +1,176 @@
+---
+const images = [
+  { src: "/images/gallery/doom-throne.webp", alt: "Doctor Doom en su trono" },
+  { src: "/images/gallery/battle-scene.webp", alt: "Escena de batalla épica" },
+  { src: "/images/gallery/hero-team.webp", alt: "Equipo de héroes reunido" },
+  { src: "/images/gallery/cinematic-shot.webp", alt: "Plano cinematográfico" },
+];
+---
+
+<section id="gallery" class="gallery-section py-12 bg-black">
+  <h2 class="text-4xl text-emerald-500 font-bold mb-8 text-center">Galería</h2>
+  <div class="gallery-grid">
+    {images.map((img, i) => (
+      <div class="gallery-item" data-index={i}>
+        <img src={img.src} alt={img.alt} class="gallery-img" />
+        <span class="gallery-caption">{img.alt}</span>
+      </div>
+    ))}
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox hidden">
+    <button id="close-lightbox" class="lightbox-close">✕</button>
+    <img id="lightbox-img" src="" alt="" class="lightbox-img" />
+    <button id="prev-lightbox" class="lightbox-nav left">←</button>
+    <button id="next-lightbox" class="lightbox-nav right">→</button>
+  </div>
+</section>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 168, 92, 0.85);
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0.5rem;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  .gallery-item:hover .gallery-img { transform: scale(1.1); }
+  .gallery-item:hover .gallery-caption { opacity: 1; transform: translateY(0); }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+  }
+  .lightbox.hidden { display: none; }
+  .lightbox-img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #05a85c;
+    cursor: pointer;
+  }
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(5,168,92,0.7);
+    border: none;
+    color: white;
+    font-size: 2rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  .lightbox-nav.left { left: 1rem; }
+  .lightbox-nav.right { right: 1rem; }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const items = document.querySelectorAll<HTMLDivElement>(".gallery-item");
+  const lightbox = document.getElementById("lightbox") as HTMLElement | null;
+  const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+  const closeBtn = document.getElementById("close-lightbox") as HTMLButtonElement | null;
+  const prevBtn = document.getElementById("prev-lightbox") as HTMLButtonElement | null;
+  const nextBtn = document.getElementById("next-lightbox") as HTMLButtonElement | null;
+
+  let currentIndex = 0;
+
+  function openLightbox(index: number) {
+    if (!lightbox || !lightboxImg) return;
+
+    currentIndex = index;
+    const img = items[index].querySelector("img") as HTMLImageElement | null;
+    if (!img) return;
+
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.remove("hidden");
+
+    gsap.fromTo(lightboxImg, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.5 });
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightboxImg) return;
+
+    gsap.to(lightboxImg, {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.4,
+      onComplete: () => {
+        lightbox.classList.add("hidden");
+      }
+    });
+  }
+
+  function showImage(index: number) {
+    if (!lightboxImg) return;
+
+    if (index < 0) index = items.length - 1;
+    if (index >= items.length) index = 0;
+    currentIndex = index;
+
+    const img = items[index].querySelector("img") as HTMLImageElement | null;
+    if (!img) return;
+
+    gsap.to(lightboxImg, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        gsap.fromTo(lightboxImg, { opacity: 0, x: 50 }, { opacity: 1, x: 0, duration: 0.5 });
+      }
+    });
+  }
+
+  items.forEach((item, i) => {
+    item.addEventListener("click", () => openLightbox(i));
+  });
+
+  if (closeBtn) closeBtn.addEventListener("click", closeLightbox);
+  if (prevBtn) prevBtn.addEventListener("click", () => showImage(currentIndex - 1));
+  if (nextBtn) nextBtn.addEventListener("click", () => showImage(currentIndex + 1));
+</script>
+
