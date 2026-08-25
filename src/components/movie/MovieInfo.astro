@@ -14,30 +14,45 @@ import Gallery from "../gallery/Gallery.astro";
     class="min-h-screen bg-black px-6 py-24"
 >
     <div class="mx-auto max-w-6xl">
-        <!-- Movie Trailer Section -->
-        <Trailer />
-        <!-- Movie Sypnosis Section -->
-        <Synopsis />
-        <!-- Movie Cast Section -->
-        <Carousel
-            title="Cast"
-            description="Conoce al reparto de la película"
-            items={cast}
-            cardComponent={CastCard}
-            showFilters={true}
-            filterBy="team"
-        />
-        <!-- Crew Team Movie Section -->
-        <Carousel
-            title="Crew"
-            description="Conoce a las personas detrás de Avengers: Doomsday"
-            items={crew}
-            cardComponent={CrewCard}
-            showFilters={true}
-            filterBy="team"
-        />
-        <!-- Movie Gallery -->
-        <Gallery />
+        <!-- Trailer -->
+        <section id="trailer" class="scroll-mt-24">
+            <Trailer />
+        </section>
+
+        <!-- Synopsis -->
+        <section id="synopsis" class="scroll-mt-24">
+            <Synopsis />
+        </section>
+
+        <!-- Cast -->
+        <section id="cast" class="scroll-mt-24">
+            <Carousel
+                title="Cast"
+                description="Conoce al reparto de la pelicula"
+                items={cast}
+                cardComponent={CastCard}
+                showFilters={true}
+                filterBy="team"
+            />
+        </section>
+
+        <!-- Crew -->
+        <section id="crew" class="scroll-mt-24">
+            <Carousel
+                title="Crew"
+                description="Conoce a las personas detras de Avengers: Doomsday"
+                items={crew}
+                cardComponent={CrewCard}
+                showFilters={true}
+                filterBy="team"
+            />
+        </section>
+
+        <!-- Gallery -->
+        <section id="gallery" class="scroll-mt-24">
+            <Gallery />
+        </section>
+
         
     </div>
 </section>

@@ -1,9 +1,4 @@
 <div class="border-frame">
-    <!-- Botón menú -->
-    <button class="corner-icon top-left" data-nav="menu">
-        <img src="/icons/menu.svg" alt="Menu" class="icon-svg" />
-        <span class="tooltip tooltip-up">Menu</span>
-    </button>
 
     <!-- Botón Facebook -->
     <button class="corner-icon top-right" data-nav="facebook">
@@ -28,18 +23,6 @@
         <img src="/icons/video.svg" alt="Trailer" class="icon-svg" />
         <span class="tooltip tooltip-bottom">Trailer</span>
     </button>
-
-    <!-- Menú compacto -->
-    <nav id="corner-menu" class="corner-menu">
-        <ul>
-            <li><a href="#hero">Hero</a></li>
-            <li><a href="#trailer">Trailer</a></li>
-            <li><a href="#synopsis">Synopsis</a></li>
-            <li><a href="#cast">Cast</a></li>
-            <li><a href="#crew">Crew</a></li>
-        </ul>
-    </nav>
-
 
     <!-- Líneas -->
     <div class="frame-line top"></div>
@@ -123,7 +106,6 @@
     }
 
     /* Corner Buttons Positions */
-    .corner-icon.top-left { top: -0.8rem; left: 0; }
     .corner-icon.top-right { top: -0.8rem; right: 0; }
     .corner-icon.top-right2 { top: -0.8rem; right: 3rem; }
     .corner-icon.bottom-left { bottom: -0.8rem; left: 0; }
@@ -137,49 +119,12 @@
     .corner-icon:hover .icon-svg {
         filter: invert(62%) sepia(92%) saturate(356%) hue-rotate(90deg) brightness(120%) contrast(100%);
     }
-    /* Menu Desplegable */
-    .corner-menu {
-        position: absolute;
-        top: 2.5rem; /* debajo del botón */
-        left: 0;
-        background: rgba(0,0,0,0.85);
-        border: 1px solid #05a85c;
-        border-radius: 6px;
-        padding: 0.5rem 1rem;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateY(-10px);
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        z-index: 10;
-    }
 
-    .corner-menu ul {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .corner-menu li {
-        margin: 1rem 2rem;
-    }
-
-    .corner-menu a {
-        color: #05a85c;
-        font-size: 1rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-
-    .corner-menu a:hover {
-        color: #22c55e;
-    }
-
-    /* Estado activo */
-    .corner-menu.active {
-        opacity: 1;
-        pointer-events: auto;
-        transform: translateY(0);
+    /* Media Queries */
+    @media (max-width: 992px) {
+        .corner-icon {
+            margin-top: 1.5rem;
+        }
     }
 </style>
 
@@ -199,64 +144,6 @@
         });
         btn.addEventListener("mouseleave", () => {
             gsap.to(tooltip, { opacity: 0, y: 0, duration: 0.3 });
-        });
-    });
-
-    // Navegación con scroll
-    document.querySelectorAll(".corner-icon[data-nav]").forEach(btn => {
-        const target = btn.getAttribute("data-nav");
-        if (target == null ) {return}
-        if (target.startsWith("#")) {
-            btn.addEventListener("click", () => {
-            gsap.to(window, { scrollTo: target, duration: 1, ease: "power2.inOut" });
-            });
-        }
-    });
-    // ScrollSpy
-    const sections = document.querySelectorAll("section");
-        sections.forEach(sec => {
-        ScrollTrigger.create({
-            trigger: sec,
-            start: "top center",
-            end: "bottom center",
-            onEnter: () => highlightNav(sec.id),
-            onEnterBack: () => highlightNav(sec.id),
-        });
-    });
-
-    function highlightNav(id:any) {
-        document.querySelectorAll(".corner-icon").forEach(btn => {
-            btn.classList.remove("active");
-            if (btn.getAttribute("data-nav") === `#${id}`) {
-            btn.classList.add("active");
-            }
-        });
-    }
-
-
-    /* Menu gsap  */
-    const menuBtn = document.querySelector(".corner-icon[data-nav='menu']");
-    const cornerMenu = document.getElementById("corner-menu");
-
-    if (menuBtn && cornerMenu) {
-        menuBtn.addEventListener("click", () => {
-            if (cornerMenu.classList.contains("active")) {
-            gsap.to(cornerMenu, { opacity: 0, y: -10, duration: 0.3, onComplete: () => cornerMenu.classList.remove("active") });
-            } else {
-            cornerMenu.classList.add("active");
-            gsap.fromTo(cornerMenu, { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3 });
-            }
-        });
-    }
-
-    // Navegación suave
-    document.querySelectorAll("#corner-menu a").forEach(link => {
-        link.addEventListener("click", e => {
-            e.preventDefault();
-            const target = link.getAttribute("href");
-            if (target == null || cornerMenu == null){return}
-            gsap.to(window, { scrollTo: target, duration: 1, ease: "power2.inOut" });
-            gsap.to(cornerMenu, { opacity: 0, y: -10, duration: 0.3, onComplete: () => cornerMenu.classList.remove("active") });
         });
     });
 </script>

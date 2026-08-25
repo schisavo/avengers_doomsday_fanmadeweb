@@ -9,7 +9,7 @@ import MovieInfo from '../components/movie/MovieInfo.astro'
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="" />
-		<link rel="icon" href="" />
+		<link rel="icon" href="/icons/doom.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro</title>
@@ -18,7 +18,9 @@ import MovieInfo from '../components/movie/MovieInfo.astro'
 		<Preloader />
 		
 		<!-- Hero - Presentation Section: Paralax effect, words effect, frame effect -->
-        <Hero />
+        <section id="hero" class="scroll-mt-24">
+            <Hero />
+        </section>
 		<!-- Movie info: trailer, sypnosis, cast, crew,  -->
 		<MovieInfo />
 	</body>

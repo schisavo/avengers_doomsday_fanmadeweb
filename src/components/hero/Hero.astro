@@ -2,11 +2,13 @@
 import HeroFrame from "./HeroFrame.astro"
 import HeroText from "./HeroText.astro"
 import HeroBackground from "./HeroBackground.astro"
+import CornerMenu from "../navigation/CornerMenu.astro";
 ---
 
 <section
     class="hero relative h-screen w-full overflow-hidden bg-black"
     data-parallax-hero>
+    <CornerMenu />
     <!-- Hero Frame -->
     <HeroFrame />
     <!-- Magic Words effect -->
@@ -34,7 +36,7 @@ import HeroBackground from "./HeroBackground.astro"
     .scroll-button {
         position: absolute;
         left: 50%;
-        bottom: clamp(35px, 5vh, 70px);
+        bottom: clamp(50px, 10vh, 70px);
         transform: translateX(-50%);
         z-index: 11;
         display: flex;

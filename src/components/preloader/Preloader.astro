@@ -34,17 +34,58 @@ import { gsap } from "gsap";
     <div
         class="relative h-40 w-40"
         data-incursion-stage>
+        <!-- Incursion Avengers -->
         <div
-            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
-            data-incursion-ball>
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball
+        >
+            <div
+                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+            ></div>
+
+            <img
+                src="icons/avengers.svg"
+                alt=""
+                aria-hidden="true"
+                class="relative z-10 h-6 w-6 object-contain"
+                draggable="false"
+            />
         </div>
+
+        <!-- Incursion X-Men -->
         <div
-            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
-            data-incursion-ball>
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball
+        >
+            <div
+                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+            ></div>
+
+            <img
+                src="icons/xmen.svg"
+                alt=""
+                aria-hidden="true"
+                class="relative z-10 h-6 w-6 object-contain"
+                draggable="false"
+            />
         </div>
+
+        <!-- Incursion Fantastic Four -->
         <div
-            class="absolute left-1/2 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
-            data-incursion-ball>
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            data-incursion-ball
+        >
+            <div
+                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+            ></div>
+
+            <img
+                src="icons/fantastic4.svg"
+                alt=""
+                aria-hidden="true"
+                class="relative z-10 h-6 w-6 object-contain"
+                draggable="false"
+            />
         </div>
     </div>
     <!-- Flash de la colision -->
@@ -152,8 +193,8 @@ import { gsap } from "gsap";
         {
             scale: 1,
             opacity: 1,
-            duration: 0.5,
-            stagger: 0.12,
+            duration: 0.8,
+            stagger: 0.18,
             ease: "back.out(1.7)",
         }
     );
@@ -170,7 +211,7 @@ import { gsap } from "gsap";
             {
                 x: -75,
                 y: -45,
-                duration: 0.7,
+                duration: 1.0,
                 ease: "power3.inOut",
             },
             "<"
@@ -181,7 +222,7 @@ import { gsap } from "gsap";
             {
                 x: 70,
                 y: -35,
-                duration: 0.75,
+                duration: 1.05,
                 ease: "power3.inOut",
             },
             "<"
@@ -192,7 +233,7 @@ import { gsap } from "gsap";
             {
                 x: 15,
                 y: 70,
-                duration: 0.72,
+                duration: 1.02,
                 ease: "power3.inOut",
             },
             "<"
@@ -209,7 +250,7 @@ import { gsap } from "gsap";
             {
                 x: 0,
                 y: 0,
-                duration: 0.45,
+                duration: 0.65,
                 ease: "power4.in",
                 stagger: 0.02,
             }
@@ -223,10 +264,13 @@ import { gsap } from "gsap";
             balls,
             {
                 scale: 1.25,
-                duration: 0.12,
+                duration: 0.35,
                 ease: "power2.out",
             }
         );
+
+        /* Pausa antes de la colision  */
+        tl.to({}, { duration: 0.15 });
     /*
      * =====================================================
      * 7. COLISION
@@ -250,7 +294,7 @@ import { gsap } from "gsap";
             {
                 scale: 8,
                 opacity: 1,
-                duration: 0.18,
+                duration: 0.22,
                 ease: "power3.out",
             },
             "<"
@@ -311,7 +355,7 @@ import { gsap } from "gsap";
             {
                 scale: 8,
                 opacity: 0,
-                duration: 0.7,
+                duration: 0.9,
                 ease: "power3.out",
             },
             "<"
