@@ -1,5 +1,5 @@
 ---
-import PeopleCarouselHeader from "./CarouselHeader.astro";
+import CarouselHeader from "./CarouselHeader.astro";
 
 interface Props {
   title: string;
@@ -47,11 +47,12 @@ const filters =
   aria-label={title}
   data-people-carousel
 >
-  <PeopleCarouselHeader
+  <CarouselHeader
     title={title}
     description={description}
     showFilters={showFilters}
     filters={filters}
+    items={items}
   />
 
   <!-- VIEWPORT -->

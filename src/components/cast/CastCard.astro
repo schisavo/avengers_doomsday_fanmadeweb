@@ -100,13 +100,31 @@ const { member } = Astro.props;
    * En dispositivos con hover real:
    * Actor → Personaje
    */
-  @media (hover: hover) {
+    @media (hover: hover) {
     .cast-card:hover .actor-name {
       display: none;
     }
-
     .cast-card:hover .character-name {
       display: inline;
     }
   }
+
+  /* Para dispositivos táctiles: cuando se activa con click */
+  .cast-card.active .actor-name {
+    display: none;
+  }
+  .cast-card.active .character-name {
+    display: inline;
+  }
+  .cast-card.active .actor-img {
+    transform: scale(1.03);
+  }
+  .cast-card.active .character-img {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cast-card.active .pointer-events-none {
+    opacity: 1;
+  }
+
 </style>

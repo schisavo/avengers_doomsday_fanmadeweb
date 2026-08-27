@@ -1,14 +1,14 @@
 ---
 const images = [
-  { src: "/images/gallery/doom-throne.webp", alt: "Doctor Doom en su trono" },
-  { src: "/images/gallery/battle-scene.webp", alt: "Escena de batalla épica" },
-  { src: "/images/gallery/hero-team.webp", alt: "Equipo de héroes reunido" },
-  { src: "/images/gallery/cinematic-shot.webp", alt: "Plano cinematográfico" },
+  { src: "/images/gallery/doom-throne.webp", alt: "Doctor Doom on his throne" },
+  { src: "/images/gallery/battle-scene.webp", alt: "Epic battle scene." },
+  { src: "/images/gallery/hero-team.webp", alt: "Team of heroes assembled." },
+  { src: "/images/gallery/cinematic-shot.webp", alt: "Cinematic shot." },
 ];
 ---
 
 <section id="gallery" class="gallery-section py-12 bg-black">
-  <h2 class="text-4xl text-emerald-500 font-bold mb-8 text-center">Galería</h2>
+  <h2 class="text-4xl text-emerald-500 font-bold mb-8 text-center">Gallery</h2>
   <div class="gallery-grid">
     {images.map((img, i) => (
       <div class="gallery-item" data-index={i}>

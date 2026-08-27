@@ -1,28 +1,28 @@
 <div class="border-frame">
 
     <!-- Botón Facebook -->
-    <button class="corner-icon top-right" data-nav="facebook">
+    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="corner-icon top-right" data-nav="facebook">
         <img src="/icons/facebook.svg" alt="Facebook" class="icon-svg" />
         <span class="tooltip tooltip-up">Facebook</span>
-    </button>
+    </a>
 
     <!-- Botón Instagram -->
-    <button class="corner-icon top-right2" data-nav="instagram">
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="corner-icon top-right2" data-nav="instagram">
         <img src="/icons/instagram.svg" alt="Instagram" class="icon-svg" />
         <span class="tooltip tooltip-up">Instagram</span>
-    </button>
+    </a>
 
     <!-- Botón Movie Info -->
-    <button class="corner-icon bottom-left" data-nav="#movie-info">
+    <a class="corner-icon bottom-left" data-nav="#movie-info">
         <img src="/icons/boleto.svg" alt="Movie Info" class="icon-svg" />
-        <span class="tooltip tooltip-bottom">Boletos</span>
-    </button>
+        <span class="tooltip tooltip-bottom">Tickets</span>
+    </a>
 
     <!-- Botón Trailer -->
-    <button class="corner-icon bottom-right" data-nav="#trailer">
+    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="corner-icon bottom-right" data-nav="#trailer">
         <img src="/icons/video.svg" alt="Trailer" class="icon-svg" />
         <span class="tooltip tooltip-bottom">Trailer</span>
-    </button>
+    </a>
 
     <!-- Líneas -->
     <div class="frame-line top"></div>
@@ -36,7 +36,7 @@
         position: absolute;
         inset: clamp(20px, 3vw, 40px);
         pointer-events: none;
-        z-index: 10;
+        z-index: 4;
     }
     /* Horizontal lines */
     .frame-line.top,
@@ -122,8 +122,11 @@
 
     /* Media Queries */
     @media (max-width: 992px) {
-        .corner-icon {
+        .top-right, .top-right2 {
             margin-top: 1.5rem;
+        }
+        .bottom-left, .bottom-right {
+            margin-bottom: 1.5rem;
         }
     }
 </style>
