@@ -1,0 +1,541 @@
+<section
+  id="pre-footer"
+  class="relative min-h-screen w-full overflow-hidden bg-black text-white"
+>
+  <!-- Fondo -->
+  <div
+    class="absolute inset-0"
+    style="
+      background:
+        radial-gradient(circle at 50% 45%, rgba(5,168,92,.12), transparent 35%),
+        radial-gradient(circle at 50% 100%, rgba(0,255,120,.06), transparent 45%),
+        #000;
+    "
+  ></div>
+
+  <!-- Ruido -->
+  <div class="prefooter-noise pointer-events-none absolute inset-0"></div>
+
+  <div
+    class="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 py-24 text-center"
+  >
+    <!-- Eyebrow -->
+    <p
+      id="prefooter-eyebrow"
+      class="mb-5 text-[10px] font-semibold tracking-[0.45em] text-[#05a85c] uppercase sm:text-xs"
+    >
+      The countdown begins
+    </p>
+
+    <!-- Fecha -->
+    <h2
+      id="prefooter-date"
+      class="font-serif text-5xl leading-none tracking-tight sm:text-7xl md:text-8xl"
+    >
+      DECEMBER 18
+      <span class="block text-[#05a85c]">2026</span>
+    </h2>
+
+    <p
+      id="prefooter-subtitle"
+      class="mt-6 max-w-xl text-sm leading-relaxed text-white/50 sm:text-base"
+    >
+      The world waits. Doom watches.
+    </p>
+
+    <!-- Contador -->
+    <div
+      id="prefooter-countdown"
+      class="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
+    >
+      <div class="countdown-box">
+        <span id="pf-days" class="countdown-number">000</span>
+        <span class="countdown-label">DAYS</span>
+      </div>
+
+      <div class="countdown-box">
+        <span id="pf-hours" class="countdown-number">00</span>
+        <span class="countdown-label">HOURS</span>
+      </div>
+
+      <div class="countdown-box">
+        <span id="pf-minutes" class="countdown-number">00</span>
+        <span class="countdown-label">MINUTES</span>
+      </div>
+
+      <div class="countdown-box">
+        <span id="pf-seconds" class="countdown-number">00</span>
+        <span class="countdown-label">SECONDS</span>
+      </div>
+    </div>
+
+    <!-- Tarjeta plegable -->
+    <div
+      id="project-card"
+      class="mt-20 w-full max-w-2xl text-left"
+    >
+      <button
+        id="project-card-toggle"
+        type="button"
+        aria-expanded="false"
+        class="project-card-header group w-full"
+      >
+        <div>
+          <span class="project-card-kicker">A PERSONAL PROJECT</span>
+          <span class="project-card-title">
+            WHY I BUILT THIS WEBSITE
+          </span>
+        </div>
+
+        <span
+          id="project-card-icon"
+          class="project-card-icon"
+          aria-hidden="true"
+        >
+          +
+        </span>
+      </button>
+
+      <div
+        id="project-card-content"
+        class="project-card-content"
+        aria-hidden="true"
+      >
+        <div class="project-card-inner">
+          <p>
+            This website was created as a personal experiment driven by
+            curiosity, creativity and the desire to keep learning through
+            frontend development.
+          </p>
+
+          <p>
+            I wanted to explore animation, visual effects, responsive design,
+            interaction and storytelling through a fictional cinematic
+            experience. The project is made for fun and educational purposes,
+            with the intention of practicing and experimenting with web
+            technologies.
+          </p>
+
+          <p>
+            Part of the motivation behind this project came from seeing
+            creative frontend work such as the Spider-Man: Brand New Day
+            website created by MiduDev. That project inspired me to explore
+            how a website itself can become part of the cinematic experience,
+            rather than simply presenting information on a page.
+          </p>
+
+          <p>
+            This is an independent, non-commercial fan project. It is not
+            intended to represent, replace, imitate or claim ownership of any
+            official website, studio, publisher, character, logo, artwork,
+            trademark or other intellectual property belonging to their
+            respective owners.
+          </p>
+
+          <p>
+            Any referenced characters, names or visual concepts belong to
+            their respective copyright and trademark holders. This website is
+            presented solely as a personal exercise in design, development,
+            animation and learning.
+          </p>
+
+          <div class="project-card-note">
+            <span>01</span>
+            <span>Built for fun. Designed to learn.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+    #pre-footer {
+    isolation: isolate;
+    }
+
+    .prefooter-noise {
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E");
+    }
+
+    .countdown-box {
+    min-width: 110px;
+    padding: 1rem 1.25rem;
+
+    border: 1px solid rgba(5, 168, 92, 0.2);
+    background: rgba(5, 168, 92, 0.035);
+
+    backdrop-filter: blur(10px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .countdown-box:hover {
+    border-color: rgba(5, 168, 92, 0.5);
+    background: rgba(5, 168, 92, 0.07);
+    }
+
+    .countdown-number {
+    font-family: monospace;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    }
+
+    .countdown-label {
+    margin-top: 0.5rem;
+
+    font-size: 8px;
+    letter-spacing: 0.3em;
+
+    color: rgba(255,255,255,0.35);
+    }
+
+    /* =========================================
+    PROJECT CARD
+    ========================================= */
+
+    .project-card {
+    position: relative;
+    }
+
+    .project-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 1.25rem 1.5rem;
+
+    border: 1px solid rgba(255,255,255,0.12);
+    border-bottom-color: rgba(5,168,92,0.3);
+
+    background: rgba(255,255,255,0.025);
+
+    cursor: pointer;
+
+    text-align: left;
+
+    transition:
+        background 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .project-card-header:hover {
+    background: rgba(5,168,92,0.05);
+    border-color: rgba(5,168,92,0.45);
+    }
+
+    .project-card-header > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    }
+
+    .project-card-kicker {
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: #05a85c;
+    }
+
+    .project-card-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    }
+
+    .project-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    font-size: 1.2rem;
+    font-weight: 300;
+
+    transition:
+        transform 0.4s ease,
+        border-color 0.3s ease;
+    }
+
+    .project-card-content {
+    display: grid;
+    grid-template-rows: 0fr;
+
+    overflow: hidden;
+
+    border-left: 1px solid rgba(255,255,255,0.08);
+    border-right: 1px solid rgba(255,255,255,0.08);
+
+    transition: grid-template-rows 0.5s cubic-bezier(.77,0,.18,1);
+    }
+
+    .project-card-content.open {
+    grid-template-rows: 1fr;
+    }
+
+    .project-card-inner {
+    min-height: 0;
+    overflow: hidden;
+
+    padding: 0 1.5rem;
+
+    color: rgba(255,255,255,0.55);
+
+    font-size: 0.8rem;
+    line-height: 1.8;
+    }
+
+    .project-card-content.open .project-card-inner {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    }
+
+    .project-card-inner p + p {
+    margin-top: 1rem;
+    }
+
+    .project-card-note {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+
+    color: #05a85c;
+
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    }
+
+    .project-card-note span:first-child {
+    opacity: 0.5;
+    }
+
+    .project-card-header.active .project-card-icon {
+    transform: rotate(45deg);
+    border-color: rgba(5,168,92,0.6);
+    }
+
+    @media (max-width: 640px) {
+    .countdown-box {
+        min-width: 0;
+        padding: 0.85rem 0.5rem;
+    }
+
+    .project-card-header {
+        padding: 1rem;
+    }
+
+    .project-card-inner {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  const initPreFooter = () => {
+    const section = document.querySelector("#pre-footer");
+    if (!section) return;
+
+    const eyebrow = section.querySelector("#prefooter-eyebrow");
+    const date = section.querySelector("#prefooter-date");
+    const subtitle = section.querySelector("#prefooter-subtitle");
+    const countdown = section.querySelector("#prefooter-countdown");
+
+    const boxes = section.querySelectorAll(".countdown-box");
+
+    gsap.set(
+      [eyebrow, date, subtitle, countdown],
+      {
+        opacity: 0,
+        y: 30
+      }
+    );
+
+    gsap.set(boxes, {
+      opacity: 0,
+      y: 20
+    });
+
+    const intro = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 70%",
+        once: true
+      }
+    });
+
+    intro
+      .to(eyebrow, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out"
+      })
+      .to(
+        date,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out"
+        },
+        "-=0.35"
+      )
+      .to(
+        subtitle,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: "power3.out"
+        },
+        "-=0.5"
+      )
+      .to(
+        countdown,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out"
+        },
+        "-=0.35"
+      )
+      .to(
+        boxes,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.08,
+          ease: "power2.out"
+        },
+        "-=0.5"
+      );
+
+    /* =========================================
+       COUNTDOWN
+    ========================================= */
+
+    const targetDate = new Date(
+      "2026-12-18T00:00:00"
+    ).getTime();
+
+    const days = section.querySelector("#pf-days");
+    const hours = section.querySelector("#pf-hours");
+    const minutes = section.querySelector("#pf-minutes");
+    const seconds = section.querySelector("#pf-seconds");
+
+    if (!days || !hours || !minutes || !seconds) return;
+
+    const updateCountdown = () => {
+      const now = Date.now();
+      const difference = targetDate - now;
+
+      if (difference <= 0) {
+        days.textContent = "000";
+        hours.textContent = "00";
+        minutes.textContent = "00";
+        seconds.textContent = "00";
+        return;
+      }
+
+      const totalSeconds = Math.floor(
+        difference / 1000
+      );
+
+      const d = Math.floor(
+        totalSeconds / 86400
+      );
+
+      const h = Math.floor(
+        (totalSeconds % 86400) / 3600
+      );
+
+      const m = Math.floor(
+        (totalSeconds % 3600) / 60
+      );
+
+      const s = totalSeconds % 60;
+
+      days.textContent = String(d).padStart(3, "0");
+      hours.textContent = String(h).padStart(2, "0");
+      minutes.textContent = String(m).padStart(2, "0");
+      seconds.textContent = String(s).padStart(2, "0");
+    };
+
+    updateCountdown();
+
+    const countdownInterval = window.setInterval(
+      updateCountdown,
+      1000
+    );
+
+    /* =========================================
+       FOLDABLE CARD
+    ========================================= */
+
+    const toggle = section.querySelector(
+      "#project-card-toggle"
+    );
+
+    const content = section.querySelector(
+      "#project-card-content"
+    );
+
+    if (toggle && content) {
+      toggle.addEventListener("click", () => {
+        const isOpen =
+          content.classList.contains("open");
+
+        content.classList.toggle("open", !isOpen);
+        toggle.classList.toggle("active", !isOpen);
+
+        toggle.setAttribute(
+          "aria-expanded",
+          String(!isOpen)
+        );
+
+        content.setAttribute(
+          "aria-hidden",
+          String(isOpen)
+        );
+      });
+    }
+
+    return () => {
+      clearInterval(countdownInterval);
+    };
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initPreFooter,
+      { once: true }
+    );
+  } else {
+    initPreFooter();
+  }
+</script>
