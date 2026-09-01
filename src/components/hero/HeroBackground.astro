@@ -1,54 +1,1029 @@
 
+<div
+  class="hero relative h-screen w-full overflow-hidden"
+  data-parallax-hero>
 
-<div class="">
-    <!-- CAPA 1: FONDO -->
-    <div
-        class="hero-background"
-        data-parallax-background >
-        <img
-            src="/images/environments/paralax_1.webp"
-            alt=""/>
-    </div>
+  <!-- ============================================================
+      CAPA 1: FONDO
+      ============================================================ -->
 
-    <!-- CAPA 2: PERSONAJE -->
-    <div
-        class="character-layer absolute inset-0 z-4 flex items-end justify-center pointer-events-none"
-        data-parallax-character>
-        <img
-            src="/images/characters/villains/doom-paralax.webp"
-            alt="Doom"
-            class="character-image" />
-    </div>
+  <div
+    class="hero-layer absolute inset-0 z-1"
+    data-parallax-background>
+    <img
+      src="/images/environments/paralax3.webp"
+      alt="Background"
+      class="hero-img"
+    />
+  </div>
+
+
+  <!-- ============================================================
+      CAPA 3: MIDGROUND
+      ============================================================ -->
+
+  <div
+    class="hero-layer absolute inset-0 z-2"
+    data-parallax-mid>
+    <img
+      src="/images/environments/paralax2.webp"
+      alt="Midground"
+      class="hero-img"
+    />
+  </div>
+
+
+  <!-- ============================================================
+      CAPA 4: FOREGROUND
+      ============================================================ -->
+
+  <div
+    class="hero-layer absolute inset-0 z-3"
+    data-parallax-fore>
+    <img
+      src="/images/environments/paralax1.webp"
+      alt="Foreground"
+      class="hero-img"
+    />
+  </div>
+
+
+  <!-- ============================================================
+      EFECTOS
+      ============================================================ -->
+
+  <canvas
+    id="hero-effects"
+    class="pointer-events-none absolute inset-0 z-10 h-full w-full">
+  </canvas>
+
+
+  <!-- ============================================================
+      VIGNETTE / ATMÓSFERA
+      ============================================================ -->
+
+  <div
+    class="pointer-events-none absolute inset-0 z-11"
+    style="
+      background:
+        radial-gradient(
+          circle at center,
+          transparent 45%,
+          rgba(0,0,0,.35) 100%
+        );
+    "
+  ></div>
 </div>
 
+
 <style>
-    /* Capa 1 */
-    .hero-background {
-        position: absolute;
-        z-index: 0;
-        top: -5%;
-        left: -5%;
-        width: 110%;
-        height: 110%;
-        overflow: hidden;
-        will-change: transform;
-    }
-    .hero-background img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-    /* Capa 2 */
-    .character-layer {
-        will-change: transform;
-    }
-    .character-image {
-        width: clamp(320px, 55vw, 900px);
-        height: auto;
-        object-fit: contain;
-        transform-origin: center bottom;
-        will-change: transform;
-    }
+
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .hero-layer {
+    position: absolute;
+    inset: 0;
+
+    opacity: 0;
+    visibility: hidden;
+
+    will-change: transform;
+  }
+
+
+  .hero-img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+  }
+
+
+  #hero-effects {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    mix-blend-mode: screen;
+  }
+
 </style>
+
+
+
+<script type="module">
+  /* ================================================================
+     HERO EFFECTS
+     ================================================================
+
+     La magia YA NO utiliza porcentajes del viewport.
+
+     Ahora:
+       1. Tomamos paralax1.webp como imagen de referencia.
+       2. Las posiciones de manos/robots pertenecen a ESA imagen.
+       3. Calculamos automáticamente el recorte producido por
+          object-fit: cover.
+       4. Por lo tanto, las posiciones permanecen pegadas al personaje
+          en desktop, tablet y mobile.
+  ================================================================ */
+
+  const canvas = document.querySelector("#hero-effects");
+  const hero = document.querySelector("[data-parallax-hero]");
+  const foregroundLayer = document.querySelector("[data-parallax-fore]");
+  const foregroundImage = foregroundLayer?.querySelector("img");
+
+  if (!canvas || !hero || !foregroundImage) {
+    throw new Error("Hero effects elements not found.");
+  }
+
+  const ctx = canvas.getContext("2d");
+
+  /* ================================================================
+     CALIBRACIÓN SOBRE LA IMAGEN
+     ================================================================
+
+     IMPORTANTE:
+
+     Estos valores YA NO representan el viewport.
+
+     Representan posiciones dentro de paralax1.webp.
+
+     0   = izquierda / arriba
+     50  = centro
+     100 = derecha / abajo
+
+     Busca las manos DIRECTAMENTE EN paralax1.webp y coloca
+     aproximadamente sus coordenadas.
+
+     Ejemplo:
+
+       mano izquierda:
+       X = 39
+       Y = 58
+
+     significa que la mano está aproximadamente al 39% del ancho
+     y 58% del alto DE LA IMAGEN.
+
+     Estas coordenadas NO cambiarán cuando cambie el responsive.
+  ================================================================ */
+
+  const HAND_LEFT = {
+    x: 41,
+    y: 57
+  };
+
+  const HAND_RIGHT = {
+    x: 63,
+    y: 57
+  };
+
+  /* ================================================================
+     ROBOTS
+     ================================================================
+
+     También pertenecen a la imagen de foreground.
+  ================================================================ */
+
+  const ROBOT_LEFT = {
+    x: 30,
+    y: 39
+  };
+
+  const ROBOT_RIGHT = {
+    x: 70,
+    y: 39
+  };
+
+  /* ================================================================
+     CONFIGURACIÓN
+  ================================================================ */
+
+  const MAGIC_COLOR = "rgba(30,255,145,";
+  const MAGIC_CORE = "rgba(150,255,190,";
+
+  const DEBRIS_COUNT = 75;
+  const MAGIC_PARTICLE_COUNT = 55;
+
+  const MOUSE_PARALLAX = 14;
+
+  /* ================================================================
+     CANVAS
+  ================================================================ */
+
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+
+  function resizeCanvas() {
+    const rect = hero.getBoundingClientRect();
+
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = rect.width;
+    height = rect.height;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    ctx.setTransform(
+      dpr,
+      0,
+      0,
+      dpr,
+      0,
+      0
+    );
+  }
+
+  resizeCanvas();
+
+  window.addEventListener("resize", resizeCanvas);
+
+  /* ================================================================
+     MOUSE
+  ================================================================ */
+
+  let mouseX = 0;
+  let mouseY = 0;
+
+  let smoothMouseX = 0;
+  let smoothMouseY = 0;
+
+  window.addEventListener("mousemove", (event) => {
+    mouseX =
+      event.clientX / window.innerWidth - 0.5;
+
+    mouseY =
+      event.clientY / window.innerHeight - 0.5;
+  });
+
+  /* ================================================================
+     UTILIDADES
+  ================================================================ */
+
+  function random(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  /* ================================================================
+     POSICIÓN REAL SOBRE LA IMAGEN
+     ================================================================
+
+     Esta es la parte importante.
+
+     object-fit: cover hace que la imagen sea escalada hasta cubrir
+     todo el hero.
+
+     Dependiendo del aspect ratio:
+
+       desktop  → poco recorte
+       tablet   → más recorte
+       mobile   → mucho más recorte
+
+     Aquí calculamos exactamente ese recorte.
+  ================================================================ */
+
+  function getImagePoint(point) {
+    const imageRect =
+      foregroundImage.getBoundingClientRect();
+
+    const heroRect =
+      hero.getBoundingClientRect();
+
+    const imageWidth =
+      foregroundImage.naturalWidth;
+
+    const imageHeight =
+      foregroundImage.naturalHeight;
+
+    if (!imageWidth || !imageHeight) {
+      return {
+        x: width * (point.x / 100),
+        y: height * (point.y / 100)
+      };
+    }
+
+    // ============================================================
+    // ESCALA REAL DE object-fit: cover
+    // ============================================================
+
+    const scale = Math.max(
+      imageRect.width / imageWidth,
+      imageRect.height / imageHeight
+    );
+
+    const renderedWidth =
+      imageWidth * scale;
+
+    const renderedHeight =
+      imageHeight * scale;
+
+    // ============================================================
+    // RECORTE PRODUCIDO POR object-position: center
+    // ============================================================
+
+    const cropX =
+      (renderedWidth - imageRect.width) / 2;
+
+    const cropY =
+      (renderedHeight - imageRect.height) / 2;
+
+    // ============================================================
+    // COORDENADA DENTRO DE LA IMAGEN ORIGINAL
+    // ============================================================
+
+    const sourceX =
+      imageWidth * (point.x / 100);
+
+    const sourceY =
+      imageHeight * (point.y / 100);
+
+    // ============================================================
+    // POSICIÓN DENTRO DEL HERO
+    //
+    // IMPORTANTE:
+    // NO usamos imageRect.top directamente.
+    //
+    // Usamos la diferencia entre la imagen y el hero.
+    // Así el scroll no mueve artificialmente la magia.
+    // ============================================================
+
+    const imageOffsetX =
+      imageRect.left - heroRect.left;
+
+    const imageOffsetY =
+      imageRect.top - heroRect.top;
+
+    const x =
+      sourceX * scale -
+      cropX +
+      imageOffsetX;
+
+    const y =
+      sourceY * scale -
+      cropY +
+      imageOffsetY;
+
+    return {
+      x,
+      y
+    };
+  }
+
+  /* ================================================================
+    DEBRIS
+  ================================================================ */
+
+  const debris = [];
+
+  for (let i = 0; i < DEBRIS_COUNT; i++) {
+    debris.push({
+      x: random(0, width),
+      y: random(0, height),
+
+      size: random(0.5, 3.5),
+
+      speed: random(0.08, 0.35),
+
+      drift: random(-0.25, 0.25),
+
+      rotation: random(0, Math.PI * 2),
+
+      rotationSpeed: random(-0.015, 0.015),
+
+      opacity: random(0.15, 0.7),
+
+      depth: random(0.2, 1),
+
+      type:
+        Math.random() > 0.65
+          ? "fragment"
+          : "dust"
+    });
+  }
+
+  function drawDebris() {
+    debris.forEach((particle) => {
+      particle.y -= particle.speed;
+      particle.x += particle.drift;
+
+      particle.rotation +=
+        particle.rotationSpeed;
+
+      if (particle.y < -20) {
+        particle.y = height + 20;
+        particle.x = random(0, width);
+      }
+
+      if (particle.x < -20) {
+        particle.x = width + 20;
+      }
+
+      if (particle.x > width + 20) {
+        particle.x = -20;
+      }
+
+      const px =
+        particle.x +
+        smoothMouseX *
+          MOUSE_PARALLAX *
+          particle.depth;
+
+      const py =
+        particle.y +
+        smoothMouseY *
+          MOUSE_PARALLAX *
+          particle.depth;
+
+      ctx.save();
+
+      ctx.translate(px, py);
+
+      ctx.rotate(particle.rotation);
+
+      if (particle.type === "dust") {
+        ctx.fillStyle =
+          `rgba(190,220,205,${particle.opacity})`;
+
+        ctx.beginPath();
+
+        ctx.arc(
+          0,
+          0,
+          particle.size,
+          0,
+          Math.PI * 2
+        );
+
+        ctx.fill();
+      } else {
+        ctx.fillStyle =
+          `rgba(140,155,150,${particle.opacity})`;
+
+        ctx.fillRect(
+          -particle.size,
+          -particle.size * 0.4,
+          particle.size * 2.5,
+          particle.size * 0.8
+        );
+      }
+
+      ctx.restore();
+    });
+  }
+
+  /* ================================================================
+     MAGIC PARTICLES
+  ================================================================ */
+
+  const magicParticles = [];
+
+  for (let i = 0; i < MAGIC_PARTICLE_COUNT; i++) {
+    magicParticles.push({
+      angle: random(0, Math.PI * 2),
+
+      radius: random(15, 130),
+
+      speed: random(0.002, 0.009),
+
+      size: random(0.8, 3),
+
+      opacity: random(0.25, 0.9),
+
+      phase: random(0, Math.PI * 2),
+
+      side:
+        Math.random() > 0.5
+          ? "left"
+          : "right"
+    });
+  }
+
+  /* ================================================================
+     AURA
+  ================================================================ */
+
+  function drawAura(x, y, intensity = 1) {
+    const gradient =
+      ctx.createRadialGradient(
+        x,
+        y,
+        0,
+        x,
+        y,
+        130
+      );
+
+    gradient.addColorStop(
+      0,
+      `${MAGIC_COLOR}${0.18 * intensity})`
+    );
+
+    gradient.addColorStop(
+      0.35,
+      `${MAGIC_COLOR}${0.08 * intensity})`
+    );
+
+    gradient.addColorStop(
+      1,
+      `${MAGIC_COLOR}0)`
+    );
+
+    ctx.fillStyle = gradient;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      x,
+      y,
+      130,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+
+    /* Núcleo */
+
+    const core =
+      ctx.createRadialGradient(
+        x,
+        y,
+        0,
+        x,
+        y,
+        35
+      );
+
+    core.addColorStop(
+      0,
+      `${MAGIC_CORE}0.8)`
+    );
+
+    core.addColorStop(
+      0.25,
+      `${MAGIC_COLOR}0.3)`
+    );
+
+    core.addColorStop(
+      1,
+      `${MAGIC_COLOR}0)`
+    );
+
+    ctx.fillStyle = core;
+
+    ctx.beginPath();
+
+    ctx.arc(
+      x,
+      y,
+      35,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.fill();
+  }
+
+  /* ================================================================
+     ENERGY STREAM
+  ================================================================ */
+
+  function drawEnergyStream(
+    startX,
+    startY,
+    endX,
+    endY,
+    time,
+    seed
+  ) {
+    ctx.save();
+
+    ctx.beginPath();
+
+    ctx.moveTo(startX, startY);
+
+    const distanceX =
+      endX - startX;
+
+    const distanceY =
+      endY - startY;
+
+    const steps = 22;
+
+    for (let i = 1; i <= steps; i++) {
+      const progress = i / steps;
+
+      const baseX =
+        startX +
+        distanceX * progress;
+
+      const baseY =
+        startY +
+        distanceY * progress;
+
+      const wave =
+        Math.sin(
+          time * 0.004 +
+          progress * 18 +
+          seed
+        ) *
+        (
+          10 *
+          Math.sin(progress * Math.PI)
+        );
+
+      const x =
+        baseX + wave;
+
+      const y =
+        baseY +
+        Math.cos(
+          time * 0.003 +
+          progress * 15 +
+          seed
+        ) *
+        5 *
+        Math.sin(progress * Math.PI);
+
+      ctx.lineTo(x, y);
+    }
+
+    /* Glow */
+
+    ctx.strokeStyle =
+      `${MAGIC_COLOR}0.12)`;
+
+    ctx.lineWidth = 7;
+
+    ctx.shadowBlur = 20;
+
+    ctx.shadowColor =
+      "rgba(30,255,145,.5)";
+
+    ctx.stroke();
+
+    /* Núcleo */
+
+    ctx.strokeStyle =
+      `${MAGIC_CORE}0.7)`;
+
+    ctx.lineWidth = 1.5;
+
+    ctx.shadowBlur = 8;
+
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  /* ================================================================
+     MAGIC CIRCLE
+  ================================================================ */
+
+  function drawMagicCircle(
+    x,
+    y,
+    radius,
+    time,
+    reverse = false
+  ) {
+    ctx.save();
+
+    ctx.translate(x, y);
+
+    ctx.rotate(
+      (reverse ? -1 : 1) *
+      time *
+      0.00025
+    );
+
+    /* Exterior */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      0,
+      0,
+      radius,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.strokeStyle =
+      `${MAGIC_COLOR}0.3)`;
+
+    ctx.lineWidth = 1;
+
+    ctx.shadowBlur = 10;
+
+    ctx.shadowColor =
+      "rgba(30,255,145,.8)";
+
+    ctx.stroke();
+
+    /* Interior */
+
+    ctx.beginPath();
+
+    ctx.arc(
+      0,
+      0,
+      radius * 0.72,
+      0,
+      Math.PI * 2
+    );
+
+    ctx.strokeStyle =
+      `${MAGIC_COLOR}0.18)`;
+
+    ctx.stroke();
+
+    /* Runas */
+
+    const segments = 8;
+
+    for (let i = 0; i < segments; i++) {
+      const angle =
+        (Math.PI * 2 / segments) * i;
+
+      const x1 =
+        Math.cos(angle) *
+        radius *
+        0.78;
+
+      const y1 =
+        Math.sin(angle) *
+        radius *
+        0.78;
+
+      const x2 =
+        Math.cos(angle) *
+        radius *
+        0.95;
+
+      const y2 =
+        Math.sin(angle) *
+        radius *
+        0.95;
+
+      ctx.beginPath();
+
+      ctx.moveTo(x1, y1);
+
+      ctx.lineTo(x2, y2);
+
+      ctx.strokeStyle =
+        `${MAGIC_COLOR}0.45)`;
+
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
+
+  /* ================================================================
+     MAGIC PARTICLES
+  ================================================================ */
+
+  function drawMagicParticles(time) {
+    magicParticles.forEach((particle) => {
+      const point =
+        particle.side === "left"
+          ? getImagePoint(HAND_LEFT)
+          : getImagePoint(HAND_RIGHT);
+
+      particle.angle +=
+        particle.speed;
+
+      const pulse =
+        Math.sin(
+          time * 0.002 +
+          particle.phase
+        ) * 12;
+
+      const radius =
+        particle.radius + pulse;
+
+      const x =
+        point.x +
+        Math.cos(particle.angle) *
+          radius +
+        smoothMouseX * 8;
+
+      const y =
+        point.y +
+        Math.sin(particle.angle) *
+          radius +
+        smoothMouseY * 8;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        x,
+        y,
+        particle.size,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fillStyle =
+        `${MAGIC_CORE}${particle.opacity})`;
+
+      ctx.shadowBlur = 10;
+
+      ctx.shadowColor =
+        "rgba(30,255,145,.8)";
+
+      ctx.fill();
+    });
+  }
+
+  /* ================================================================
+     RENDER
+  ================================================================ */
+
+  function render(time) {
+    /* Suavizar mouse */
+
+    smoothMouseX +=
+      (mouseX - smoothMouseX) *
+      0.04;
+
+    smoothMouseY +=
+      (mouseY - smoothMouseY) *
+      0.04;
+
+    /* Limpiar */
+
+    ctx.clearRect(
+      0,
+      0,
+      width,
+      height
+    );
+
+    /* ============================================================
+       DEBRIS
+    ============================================================ */
+
+    drawDebris();
+
+    /* ============================================================
+       POSICIONES REALES DE LAS MANOS
+       SOBRE paralax1.webp
+    ============================================================ */
+
+    const leftHand =
+      getImagePoint(HAND_LEFT);
+
+    const rightHand =
+      getImagePoint(HAND_RIGHT);
+
+    /* ============================================================
+       ROBOTS
+    ============================================================ */
+
+    const leftRobot =
+      getImagePoint(ROBOT_LEFT);
+
+    const rightRobot =
+      getImagePoint(ROBOT_RIGHT);
+
+    /* ============================================================
+       AURAS
+    ============================================================ */
+
+    drawAura(
+      leftHand.x + smoothMouseX * 8,
+      leftHand.y + smoothMouseY * 8,
+      1
+    );
+
+    drawAura(
+      rightHand.x + smoothMouseX * 8,
+      rightHand.y + smoothMouseY * 8,
+      1
+    );
+
+    /* ============================================================
+       MAGIC CIRCLES
+    ============================================================ */
+
+    drawMagicCircle(
+      leftHand.x + smoothMouseX * 8,
+      leftHand.y + smoothMouseY * 8,
+      38,
+      time
+    );
+
+    drawMagicCircle(
+      rightHand.x + smoothMouseX * 8,
+      rightHand.y + smoothMouseY * 8,
+      38,
+      time,
+      true
+    );
+
+    /* ============================================================
+       ENERGY → ROBOTS
+    ============================================================ */
+
+    drawEnergyStream(
+      leftHand.x,
+      leftHand.y,
+      leftRobot.x,
+      leftRobot.y,
+      time,
+      0
+    );
+
+    drawEnergyStream(
+      rightHand.x,
+      rightHand.y,
+      rightRobot.x,
+      rightRobot.y,
+      time,
+      3.14
+    );
+
+    /* Segunda corriente */
+
+    drawEnergyStream(
+      leftHand.x + 5,
+      leftHand.y,
+      leftRobot.x,
+      leftRobot.y + 15,
+      time + 700,
+      8
+    );
+
+    drawEnergyStream(
+      rightHand.x - 5,
+      rightHand.y,
+      rightRobot.x,
+      rightRobot.y + 15,
+      time + 900,
+      12
+    );
+
+    /* ============================================================
+       PARTICULAS
+    ============================================================ */
+
+    drawMagicParticles(time);
+
+    requestAnimationFrame(render);
+  }
+
+  /* ================================================================
+     ESPERAR A QUE LA IMAGEN CARGUE
+
+     Esto es importante porque necesitamos:
+
+       naturalWidth
+       naturalHeight
+
+     de paralax1.webp.
+  ================================================================ */
+
+  if (foregroundImage.complete) {
+    requestAnimationFrame(render);
+  } else {
+    foregroundImage.addEventListener(
+      "load",
+      () => {
+        resizeCanvas();
+        requestAnimationFrame(render);
+      },
+      { once: true }
+    );
+  }
+
+  /* Recalcular después de resize */
+
+  window.addEventListener(
+    "resize",
+    () => {
+      resizeCanvas();
+    }
+  );
+</script>
+

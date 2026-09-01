@@ -8,8 +8,8 @@ import MovieInfo from '../components/movie/MovieInfo.astro'
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="" />
-		<link rel="icon" href="/icons/doom.svg" />
+		<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+    	<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>FanPage - Avengers Doomsday</title>
@@ -23,5 +23,11 @@ import MovieInfo from '../components/movie/MovieInfo.astro'
         </section>
 		<!-- Movie info: trailer, sypnosis, cast, crew,  -->
 		<MovieInfo />
+
+
+
+		<script>
+			import "../lib/main.ts";
+		</script>
 	</body>
 </html>

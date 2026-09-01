@@ -1,17 +1,8 @@
 <div id="site-menu" class="site-menu">
 
     <!-- Boton del menu -->
-    <button
-        id="menu-toggle"
-        class="menu-toggle"
-        type="button"
-        aria-label="Abrir menu"
-        aria-expanded="false">
-        <img
-            src="/icons/menu.svg"
-            alt=""
-            class="menu-icon"
-        />
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+        <span class="menu-icon" style="--svg-url: url('/icons/menu.svg');"></span>
     </button>
 
     <!-- Menu -->
@@ -71,35 +62,35 @@
         cursor: pointer;
         pointer-events: auto;
         margin-top: 1rem;
+        border-radius: 50%;
     }
 
     .menu-icon {
+        display: block;
         width: 32px;
         height: 32px;
 
-        filter:
-            invert(47%)
-            sepia(92%)
-            saturate(356%)
-            hue-rotate(90deg)
-            brightness(95%)
-            contrast(90%);
+        background-color: #ffffff;
+
+        -webkit-mask-image: var(--svg-url);
+        mask-image: var(--svg-url);
+
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+
+        -webkit-mask-position: center;
+        mask-position: center;
+
+        -webkit-mask-size: contain;
+        mask-size: contain;
 
         transition:
             transform 0.3s ease,
-            filter 0.3s ease;
+            background-color 0.3s ease;
     }
 
     .menu-toggle:hover .menu-icon {
         transform: scale(1.15) rotate(10deg);
-
-        filter:
-            invert(62%)
-            sepia(92%)
-            saturate(356%)
-            hue-rotate(90deg)
-            brightness(120%)
-            contrast(100%);
     }
 
     .corner-menu {
