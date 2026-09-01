@@ -7,11 +7,12 @@ import CrewCard from "../crew/crewCard.astro";
 import { cast } from "../../data/cast";
 import { crew } from "../../data/crew";
 import Gallery from "../gallery/Gallery.astro";
+import Footer from "../footer/footer.astro";
 ---
 
 <section
     id="movie-info"
-    class="min-h-screen bg-black px-6 py-24"
+    class="min-h-screen bg-black px-6"
 >
     <div class="mx-auto max-w-6xl">
         <!-- Trailer -->
@@ -51,6 +52,11 @@ import Gallery from "../gallery/Gallery.astro";
         <!-- Gallery -->
         <section id="gallery" class="scroll-mt-24">
             <Gallery />
+        </section>
+
+        <!-- Footer -->
+        <section id="footer" class="scroll-mt-24">
+            <Footer />
         </section>
 
         
