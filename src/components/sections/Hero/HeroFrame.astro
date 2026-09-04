@@ -1,0 +1,106 @@
+<div
+    class="pointer-events-none absolute inset-[clamp(20px,3vw,40px)] z-4"
+>
+    <!-- Top frame line -->
+    <div
+        class="absolute left-[10%] right-[10%] top-0 h-0.75 bg-doom-white"
+    ></div>
+
+    <!-- Bottom frame line -->
+    <div
+        class="absolute bottom-0 left-[10%] right-[10%] h-0.75 bg-doom-white"
+    ></div>
+
+    <!-- Left frame line -->
+    <div
+        class="absolute bottom-[10%] left-0 top-[10%] w-0.75 bg-doom-white"
+    ></div>
+
+    <!-- Right frame line -->
+    <div
+        class="absolute bottom-[10%] right-0 top-[10%] w-0.75 bg-doom-white"
+    ></div>
+
+    <!-- Social navigation -->
+    <a
+        href="https://facebook.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Facebook"
+        data-nav="facebook"
+        class="group pointer-events-auto absolute right-0 -top-3 inline-flex cursor-pointer items-center justify-center rounded-full text-doom-white transition-transform duration-300 hover:scale-110 hover:rotate-10 hover:text-doom-green"
+    >
+        <span
+            class="h-8 w-8 bg-current mask-(--svg-url) mask-contain mask-center mask-no-repeat"
+            style="--svg-url: url('/icons/facebook.svg')"
+            aria-hidden="true"
+        ></span>
+
+        <span
+            class="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 translate-y-0 rounded bg-doom-green px-2 py-1 text-xs text-doom-white opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:opacity-100"
+        >
+            Facebook
+        </span>
+    </a>
+
+    <a
+        href="https://instagram.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Instagram"
+        data-nav="instagram"
+        class="group pointer-events-auto absolute right-0 -top-3 mr-12 inline-flex cursor-pointer items-center justify-center rounded-full text-doom-white transition-transform duration-300 hover:scale-110 hover:rotate-10 hover:text-doom-green"
+    >
+        <span
+            class="h-8 w-8 bg-current mask-(--svg-url) mask-contain mask-center mask-no-repeat"
+            style="--svg-url: url('/icons/instagram.svg')"
+            aria-hidden="true"
+        ></span>
+
+        <span
+            class="pointer-events-none absolute top-8 left-1/2 -translate-x-1/2 translate-y-0 rounded bg-doom-green px-2 py-1 text-xs text-doom-white opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:opacity-100"
+        >
+            Instagram
+        </span>
+    </a>
+
+    <!-- Movie information navigation -->
+    <a
+        href="#movie-info"
+        aria-label="Movie information"
+        data-nav="movie-info"
+        class="group pointer-events-auto absolute -bottom-3 left-0 inline-flex cursor-pointer items-center justify-center rounded-full text-doom-white transition-transform duration-300 hover:scale-110 hover:rotate-10 hover:text-doom-green"
+    >
+        <span
+            class="h-8 w-8 bg-current mask-(--svg-url) mask-contain mask-center mask-no-repeat"
+            style="--svg-url: url('/icons/boleto.svg')"
+            aria-hidden="true"
+        ></span>
+
+        <span
+            class="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-0 rounded bg-doom-green px-2 py-1 text-xs text-doom-white opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:opacity-100"
+        >
+            Tickets
+        </span>
+    </a>
+
+    <!-- Trailer navigation -->
+    <a
+        href="#trailer"
+        aria-label="Trailer"
+        data-nav="trailer"
+        class="group pointer-events-auto absolute -bottom-3 right-0 inline-flex cursor-pointer items-center justify-center rounded-full text-doom-white transition-transform duration-300 hover:scale-110 hover:rotate-10 hover:text-doom-green"
+    >
+        <span
+            class="h-8 w-8 bg-current mask-(--svg-url) mask-contain mask-center mask-no-repeat"
+            style="--svg-url: url('/icons/video.svg')"
+            aria-hidden="true"
+        ></span>
+
+        <span
+            class="pointer-events-none absolute bottom-8 left-1/2 -translate-x-1/2 translate-y-0 rounded bg-doom-green px-2 py-1 text-xs text-doom-white opacity-0 transition-all duration-300 group-hover:-translate-y-1 group-hover:opacity-100"
+        >
+            Trailer
+        </span>
+    </a>
+</div>

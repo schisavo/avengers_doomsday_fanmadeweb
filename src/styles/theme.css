@@ -1,0 +1,76 @@
+@theme {
+    /* ============================================
+        Colors
+        ============================================ */
+
+    --color-doom-black: #000000;
+    --color-doom-black-soft: #080808;
+    --color-doom-black-light: #111111;
+
+    --color-doom-green-dark: #037a43;
+    --color-doom-green: #05a85c;
+    --color-doom-green-light: #36e236;
+    --color-doom-green-bright: #5aff5a;
+
+    --color-doom-white-soft: #f5f5f5;
+    --color-doom-white-muted: #a3a3a3;
+
+    /* ============================================
+        UI Colors
+        ============================================ */
+
+    --color-doom-surface: #090909;
+    --color-doom-border: rgba(255, 255, 255, 0.1);
+    --color-doom-border-strong: rgba(255, 255, 255, 0.2);
+    --color-doom-white-transparent: rgba(255, 255, 255, 0.6);
+
+    --color-doom-border: rgba(255, 255, 255, 0.1);
+    --color-doom-border-strong: rgba(255, 255, 255, 0.3);
+
+    --color-doom-surface-soft: rgba(255, 255, 255, 0.025);
+    --color-doom-surface-green: rgba(5, 168, 92, 0.05);
+
+    --color-doom-border-soft: rgba(255, 255, 255, 0.08);
+    --color-doom-border-medium: rgba(255, 255, 255, 0.12);
+    --color-doom-border-light: rgba(255, 255, 255, 0.15);
+
+    --color-doom-green-transparent: rgba(5, 168, 92, 0.3);
+    --color-doom-green-hover: rgba(5, 168, 92, 0.45);
+    --color-doom-green-border: rgba(5, 168, 92, 0.6);
+
+    --color-doom-green-glow: rgba(5, 168, 92, 0.12);
+    --color-doom-green-energy: rgba(0, 255, 120, 0.06);
+
+    --color-doom-white-faded: rgba(255, 255, 255, 0.55);
+    --color-doom-white-half: rgba(255, 255, 255, 0.5);
+
+    --color-doom-surface: rgba(255, 255, 255, 0.05);
+    --color-doom-surface-hover: rgba(255, 255, 255, 0.1);
+    --color-doom-surface-active: rgba(255, 255, 255, 0.15);
+
+    --color-doom-white: #ffffff;
+
+    /* ============================================
+        Shadows
+        ============================================ */
+    --shadow-doom-menu:
+        0 10px 40px rgba(0, 0, 0, 0.55);
+
+    --shadow-doom-toggle:
+        0 0 25px rgba(0, 0, 0, 0.4);
+
+    --shadow-doom-video:
+        0 12px 35px rgba(0, 0, 0, 0.4);
+
+    --shadow-doom-video-large:
+        0 20px 60px rgba(0, 0, 0, 0.45);
+
+    /* ============================================
+        Typography
+        ============================================ */
+
+    --font-display: "Bebas Neue", sans-serif;
+    --font-heading: "Oswald", sans-serif;
+    --font-body: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+}

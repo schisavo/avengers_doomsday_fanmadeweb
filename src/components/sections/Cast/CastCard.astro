@@ -1,0 +1,101 @@
+---
+import type { CastMember } from '../../../data/cast';
+import { teamIcons } from '../../../data/teams';
+
+interface Props {
+    member: CastMember;
+}
+
+const { member } = Astro.props;
+
+
+
+const teamIcon = teamIcons[member.team] ?? null;
+---
+
+<article
+    data-cast-card
+    class="group relative aspect-3/4 w-full overflow-hidden rounded-lg border border-doom-border bg-doom-black-light"
+>
+    <!-- Imagen del actor -->
+    <img
+        src={member.actorImage}
+        alt={member.actorName}
+        loading="lazy"
+        draggable="false"
+        class="actor-img absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+    />
+
+    <!-- Imagen del personaje -->
+    <img
+        src={member.characterImage}
+        alt={member.characterName}
+        loading="lazy"
+        draggable="false"
+        class="character-img pointer-events-none absolute inset-0 h-full w-full translate-y-[20%] object-contain opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100"
+    />
+
+    <!-- Equipo del personaje -->
+    <div
+        class="absolute bottom-1 left-2 z-20 flex max-w-[calc(100%-1rem)] items-center gap-2 overflow-hidden rounded-md px-2.5 py-1 shadow-lg backdrop-blur-sm sm:bottom-3 sm:left-3 sm:max-w-[calc(100%-1.5rem)] sm:px-3 sm:py-1.5"
+        style={`background-color: ${member.teamColor};`}
+    >
+        {
+            teamIcon && (
+                <div class="shrink-0 rounded-full bg-doom-white p-1 sm:p-1">
+                    <img
+                        src={teamIcon}
+                        alt={member.team}
+                        class="h-4 w-4 rounded-full sm:h-4 sm:w-4"
+                    />
+                </div>
+            )
+        }
+
+        <span
+            class="truncate text-[0.65rem] font-bold uppercase tracking-wider text-doom-white sm:text-xs"
+        >
+            {member.team}
+        </span>
+    </div>
+
+    <!-- Capa de resaltado al pasar el cursor -->
+    <div
+        class="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-doom-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+    ></div>
+</article>
+
+<script>
+    const cards =
+        document.querySelectorAll<HTMLElement>(
+            "[data-cast-card]",
+        );
+
+    cards.forEach((card) => {
+        card.addEventListener("click", () => {
+            card.classList.toggle("active");
+
+            const actor =
+                card.querySelector<HTMLElement>(
+                    ".actor-img",
+                );
+
+            const character =
+                card.querySelector<HTMLElement>(
+                    ".character-img",
+                );
+
+            actor?.classList.toggle(
+                "scale-[1.03]",
+            );
+
+            character?.classList.toggle(
+                "translate-y-0",
+            );
+
+            character?.classList.toggle(
+                "opacity-100",
+            );
+        });
+    });
+</script>

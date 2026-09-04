@@ -1,0 +1,44 @@
+---
+import Carousel from "../../ui/Carousel/Carousel.astro";
+
+import { crew } from "../../../data/crew";
+
+import CrewCard from "./CrewCard.astro";
+---
+
+<section
+    id="crew"
+    class="w-full px-4 py-32 pb-16 sm:px-6 lg:px-8"
+>
+    <div class="mx-auto max-w-7xl">
+        <!-- Titulo de la seccion -->
+        <div class="min-w-0">
+            <h2
+                class="text-2xl font-bold text-doom-white sm:text-3xl"
+            >
+                Crew
+            </h2>
+
+            <p
+                class="mt-1 text-sm text-doom-white-half"
+            >
+                Meet the people behind Avengers: Doomsday.
+            </p>
+        </div>
+
+        <!-- Carousel del equipo -->
+        <Carousel showTeamFilter={false}>
+            {
+                crew.map((member) => (
+                    <div
+                        data-carousel-item
+                        data-team={member.name}
+                        class="shrink-0"
+                    >
+                        <CrewCard member={member} />
+                    </div>
+                ))
+            }
+        </Carousel>
+    </div>
+</section>

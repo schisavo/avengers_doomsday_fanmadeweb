@@ -1,0 +1,94 @@
+---
+import { teams } from "../../../data/teams";
+
+interface Props {
+    showTeamFilter?: boolean;
+}
+
+const { showTeamFilter = false } = Astro.props;
+---
+
+<section
+    class="w-full opacity-0 transition-opacity duration-200"
+    data-simple-carousel
+>
+    <!-- Controles principales del carousel -->
+    <div
+        class="mt-5 mb-5 flex w-full items-center justify-between gap-4"
+    >
+        <!-- Filtros por equipo -->
+        {
+            showTeamFilter && (
+                <div class="flex items-center gap-2">
+                    {teams.map((filter) => (
+                        <button
+                            type="button"
+                            data-carousel-filter={filter.team}
+                            aria-label={`Filtrar por ${filter.label}`}
+                            aria-pressed="false"
+                            class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-doom-border bg-doom-surface transition-all duration-300 hover:bg-doom-surface-hover aria-pressed:border-doom-border-strong aria-pressed:bg-doom-surface-active"
+                        >
+                            <img
+                                src={filter.icon}
+                                alt=""
+                                class="h-5 w-5 rounded-full transition-transform duration-300"
+                            />
+                        </button>
+                    ))}
+                </div>
+            )
+        }
+
+        <!-- Controles de navegacion -->
+        <div class="ml-auto flex items-center gap-2">
+            <button
+                type="button"
+                data-carousel-prev
+                aria-label="Anterior"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-doom-border bg-doom-surface text-doom-white transition hover:bg-doom-surface-hover disabled:cursor-not-allowed disabled:opacity-30"
+            >
+                ←
+            </button>
+
+            <button
+                type="button"
+                data-carousel-next
+                aria-label="Siguiente"
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-doom-border bg-doom-surface text-doom-white transition hover:bg-doom-surface-hover disabled:cursor-not-allowed disabled:opacity-30"
+            >
+                →
+            </button>
+        </div>
+    </div>
+
+    <!-- Area visible del carousel -->
+    <div
+        data-carousel-viewport
+        class="w-full overflow-hidden"
+    >
+        <!-- Contenedor que se desplaza entre las paginas -->
+        <div
+            data-carousel-track
+            class="flex gap-3 transition-transform duration-500 ease-out sm:gap-4 lg:gap-5"
+        >
+            <slot />
+        </div>
+    </div>
+
+    <!-- Indicadores de paginacion -->
+    <div
+        class="mt-4 flex w-full items-center justify-center"
+    >
+        <div
+            data-carousel-dots
+            class="flex items-center justify-center gap-1.5"
+            aria-label="Paginacion del carousel"
+        ></div>
+    </div>
+</section>
+
+<script>
+    import { initializeCarousel } from "../../../lib/carousel/carousel";
+
+    initializeCarousel();
+</script>
