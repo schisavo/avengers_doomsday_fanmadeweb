@@ -1,0 +1,44 @@
+---
+import Carousel from "../../ui/Carousel/Carousel.astro";
+
+import { cast } from "../../../data/cast";
+
+import CastCard from "./CastCard.astro";
+---
+
+<section
+    id="cast"
+    class="w-full px-4 py-32 pb-16 sm:px-6 lg:px-8"
+>
+    <div class="mx-auto max-w-7xl">
+        <!-- Titulo de la seccion -->
+        <div class="min-w-0">
+            <h2
+                class="text-2xl font-bold text-doom-white sm:text-3xl"
+            >
+                Cast
+            </h2>
+
+            <p
+                class="mt-1 text-sm text-doom-white-half"
+            >
+                Meet the cast of the movie.
+            </p>
+        </div>
+
+        <!-- Carousel del reparto -->
+        <Carousel showTeamFilter={true}>
+            {
+                cast.map((member) => (
+                    <div
+                        data-carousel-item
+                        data-team={member.team}
+                        class="shrink-0"
+                    >
+                        <CastCard member={member} />
+                    </div>
+                ))
+            }
+        </Carousel>
+    </div>
+</section>

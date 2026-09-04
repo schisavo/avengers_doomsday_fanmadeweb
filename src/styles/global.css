@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@import "./theme.css";
+@import "./utilities.css";
+
+
+/* Base global */
+body {
+  margin: 0;
+  min-width: 320px;
+}

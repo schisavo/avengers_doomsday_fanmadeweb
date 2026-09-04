@@ -1,0 +1,91 @@
+---
+interface Props {
+    id?: string;
+    targetDate: string;
+}
+
+const {
+    id = "countdown",
+    targetDate,
+} = Astro.props;
+---
+
+<!-- Contenedor principal del contador -->
+<div
+    id={id}
+    data-countdown
+    data-target-date={targetDate}
+    class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
+>
+    <!-- Contador de dias -->
+    <div
+        class="flex min-w-0 flex-col items-center justify-center border border-doom-green/20 bg-doom-green/[0.035] px-2 py-3.5 backdrop-blur-md transition-[background,border-color] duration-300 hover:border-doom-green/50 hover:bg-doom-green/[0.07] sm:min-w-27.5 sm:px-5 sm:py-4"
+    >
+        <span
+            data-countdown-days
+            class="font-mono text-[clamp(1.5rem,4vw,2.5rem)] leading-none tracking-tighter"
+        >
+            000
+        </span>
+
+        <span
+            class="mt-2 font-mono text-[8px] tracking-[0.3em] text-doom-white-soft/35"
+        >
+            DAYS
+        </span>
+    </div>
+
+    <!-- Contador de horas -->
+    <div
+        class="flex min-w-0 flex-col items-center justify-center border border-doom-green/20 bg-doom-green/[0.035] px-2 py-3.5 backdrop-blur-md transition-[background,border-color] duration-300 hover:border-doom-green/50 hover:bg-doom-green/[0.07] sm:min-w-27.5 sm:px-5 sm:py-4"
+    >
+        <span
+            data-countdown-hours
+            class="font-mono text-[clamp(1.5rem,4vw,2.5rem)] leading-none tracking-tighter"
+        >
+            00
+        </span>
+
+        <span
+            class="mt-2 font-mono text-[8px] tracking-[0.3em] text-doom-white-soft/35"
+        >
+            HOURS
+        </span>
+    </div>
+
+    <!-- Contador de minutos -->
+    <div
+        class="flex min-w-0 flex-col items-center justify-center border border-doom-green/20 bg-doom-green/[0.035] px-2 py-3.5 backdrop-blur-md transition-[background,border-color] duration-300 hover:border-doom-green/50 hover:bg-doom-green/[0.07] sm:min-w-27.5 sm:px-5 sm:py-4"
+    >
+        <span
+            data-countdown-minutes
+            class="font-mono text-[clamp(1.5rem,4vw,2.5rem)] leading-none tracking-tighter"
+        >
+            00
+        </span>
+
+        <span
+            class="mt-2 font-mono text-[8px] tracking-[0.3em] text-doom-white-soft/35"
+        >
+            MINUTES
+        </span>
+    </div>
+
+    <!-- Contador de segundos -->
+    <div
+        class="flex min-w-0 flex-col items-center justify-center border border-doom-green/20 bg-doom-green/[0.035] px-2 py-3.5 backdrop-blur-md transition-[background,border-color] duration-300 hover:border-doom-green/50 hover:bg-doom-green/[0.07] sm:min-w-27.5 sm:px-5 sm:py-4"
+    >
+        <span
+            data-countdown-seconds
+            class="font-mono text-[clamp(1.5rem,4vw,2.5rem)] leading-none tracking-tighter"
+        >
+            00
+        </span>
+
+        <span
+            class="mt-2 font-mono text-[8px] tracking-[0.3em] text-doom-white-soft/35"
+        >
+            SECONDS
+        </span>
+    </div>
+</div>

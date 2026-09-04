@@ -1,0 +1,45 @@
+/* ============================================
+   Custom Scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-doom-black-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    var(--color-doom-green),
+    var(--color-doom-green-light)
+  );
+  border-radius: 10px;
+  border: 2px solid var(--color-doom-black-light);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    var(--color-doom-green-light),
+    var(--color-doom-green)
+  );
+}
+
+/* Firefox */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color:
+    var(--color-doom-green-light)
+    var(--color-doom-black-light);
+}
+
+
+/* Sombra utilizada por las esferas del preloader */
+.shadow-doom-incursion {
+    box-shadow: 0 0 30px var(--color-doom-green-border);
+}

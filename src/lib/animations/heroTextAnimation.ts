@@ -9,7 +9,7 @@ interface Frase {
   color: string;
 }
 
-export function animarFrases(frases: Frase[]) {
+export function animatePhrases(frases: Frase[]) {
   const fraseEl = document.getElementById("frase");
   if (!fraseEl) return;
 

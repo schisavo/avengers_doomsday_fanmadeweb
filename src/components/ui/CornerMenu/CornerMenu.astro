@@ -1,0 +1,87 @@
+---
+import { navigationItems } from "../../../data/navigation";
+
+const defaultItem = navigationItems[0];
+---
+
+<div
+    id="site-menu"
+    class="fixed left-[clamp(20px,3vw,40px)] top-0 z-5"
+>
+    <!-- Boton principal del menu -->
+    <button
+        id="menu-toggle"
+        class="animate-[menu-toggle_1.8s_ease-in-out_infinite] pointer-events-auto relative z-4 mt-4 flex h-12 w-12 items-center justify-center rounded-full border border-doom-border-strong bg-doom-black/90 p-0 shadow-doom-toggle backdrop-blur-sm transition-[border-color,transform] duration-300 ease-out hover:scale-105 hover:border-doom-green"
+        type="button"
+        aria-label="Abrir menu"
+        aria-expanded="false"
+        aria-controls="corner-menu"
+    >
+        <span
+            id="menu-current-icon"
+            class="block h-6 w-6 bg-doom-white-soft transition-[transform,background-color] duration-300 ease-out"
+            style={`mask-image: url('${defaultItem.icon}'); -webkit-mask-image: url('${defaultItem.icon}'); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
+            aria-hidden="true"
+        ></span>
+    </button>
+
+    <!-- Menu de secciones -->
+    <nav
+        id="corner-menu"
+        class="invisible absolute left-0 top-17 z-10 w-12 origin-top scale-y-0 opacity-0"
+        aria-hidden="true"
+    >
+        <div
+            class="overflow-hidden rounded-2xl border border-doom-border bg-doom-black/90 p-1 shadow-doom-menu backdrop-blur-md"
+        >
+            <ul
+                class="m-0 flex list-none flex-col items-center gap-1 p-0"
+            >
+                {
+                    navigationItems.map((item) => (
+                        <li class="w-full">
+                            <a
+                                href={item.href}
+                                data-section={item.section}
+                                data-icon={item.icon}
+                                aria-label={item.label}
+                                class="menu-item group relative flex h-10 w-10 items-center justify-center rounded-xl border border-transparent transition-[background-color,border-color,transform] duration-250 ease-out hover:scale-105 hover:bg-doom-surface-hover"
+                            >
+                                <span
+                                    class="menu-item-icon block h-5 w-5 bg-doom-white-transparent transition-[background-color,transform] duration-250 ease-out group-hover:bg-doom-white-soft"
+                                    style={`mask-image: url('${item.icon}'); -webkit-mask-image: url('${item.icon}'); mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat; mask-position: center; -webkit-mask-position: center; mask-size: contain; -webkit-mask-size: contain;`}
+                                    aria-hidden="true"
+                                ></span>
+
+                                <span
+                                    class="absolute left-12 ml-2 whitespace-nowrap rounded-md border border-doom-border bg-doom-black/90 px-2 py-1 text-[0.65rem] font-medium uppercase tracking-[0.15em] text-doom-white-soft opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                                >
+                                    {item.label}
+                                </span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<style>
+    @keyframes menu-toggle {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(7px);
+        }
+    }
+</style>
+
+<script>
+    import { initializeCornerMenu } from "../../../lib/animations/scrollSpy";
+
+    initializeCornerMenu();
+</script>

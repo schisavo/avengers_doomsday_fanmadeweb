@@ -1,0 +1,100 @@
+---
+import { movie } from "../../../data/movie";
+
+const project = movie.project;
+---
+
+<!-- Tarjeta informativa del proyecto -->
+<div
+    id="project-card"
+    class="relative mt-20 w-full max-w-2xl text-left"
+>
+    <!-- Boton para expandir la informacion -->
+    <button
+        id="project-card-toggle"
+        type="button"
+        aria-expanded="false"
+        class="group flex w-full cursor-pointer items-center justify-between border border-doom-border-medium border-b-doom-green-transparent bg-doom-surface-soft p-4 text-left transition-[background,border-color] duration-300 hover:border-doom-green-hover hover:bg-doom-surface-green sm:px-6 sm:py-5"
+    >
+        <div class="flex flex-col gap-1.5">
+            <span
+                class="text-[8px] font-semibold tracking-[0.3em] text-doom-green"
+            >
+                {project.kicker}
+            </span>
+
+            <span
+                class="text-xs font-semibold tracking-[0.16em]"
+            >
+                {project.title}
+            </span>
+        </div>
+
+        <!-- Icono de expansion -->
+        <span
+            id="project-card-icon"
+            class="flex h-7.5 w-7.5 items-center justify-center border border-doom-border-light text-xl font-light transition-[transform,border-color] duration-300 group-hover:border-doom-green-border"
+            aria-hidden="true"
+        >
+            +
+        </span>
+    </button>
+
+    <!-- Contenido expandible -->
+    <div
+        id="project-card-content"
+        class="grid grid-rows-[0fr] overflow-hidden border-x border-doom-border-soft transition-[grid-template-rows] duration-500 ease-[cubic-bezier(.77,0,.18,1)]"
+        aria-hidden="true"
+    >
+        <div
+            class="min-h-0 overflow-hidden px-4 text-[0.8rem] leading-[1.8] text-doom-white-faded sm:px-6"
+        >
+            <div class="pt-6 pb-6">
+                <p>
+                    This website was created as a personal experiment driven by
+                    curiosity, creativity and the desire to keep learning through
+                    frontend development.
+                </p>
+
+                <p class="mt-4">
+                    I wanted to explore animation, visual effects, responsive design,
+                    interaction and storytelling through a fictional cinematic
+                    experience. The project is made for fun and educational purposes,
+                    with the intention of practicing and experimenting with web
+                    technologies.
+                </p>
+
+                <p class="mt-4">
+                    Part of the motivation behind this project came from seeing
+                    creative frontend work such as the Spider-Man: Brand New Day
+                    website created by MiduDev. That project inspired me to explore
+                    how a website itself can become part of the cinematic experience,
+                    rather than simply presenting information on a page.
+                </p>
+
+                <p class="mt-4">
+                    This is an independent, non-commercial fan project. It is not
+                    intended to represent, replace, imitate or claim ownership of any
+                    official website, studio, publisher, character, logo, artwork,
+                    trademark or other intellectual property belonging to their
+                    respective owners.
+                </p>
+
+                <p class="mt-4">
+                    Any referenced characters, names or visual concepts belong to
+                    their respective copyright and trademark holders. This website is
+                    presented solely as a personal exercise in design, development,
+                    animation and learning.
+                </p>
+
+                <!-- Nota final del proyecto -->
+                <div
+                    class="mt-6 flex items-center gap-3 border-t border-doom-border-soft pt-4 text-[8px] uppercase tracking-[0.2em] text-doom-green"
+                >
+                    <span class="opacity-50">01</span>
+                    <span>{project.note}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

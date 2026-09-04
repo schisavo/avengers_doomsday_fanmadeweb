@@ -1,0 +1,100 @@
+---
+import { galleryImages } from "../../../data/gallery";
+import GalleryCard from "./GalleryCard.astro";
+---
+
+<section
+    id="gallery"
+    class="gallery-section relative min-h-screen overflow-hidden bg-doom-black py-20 text-doom-white"
+>
+    <!-- Titulo de la galeria -->
+    <h2
+        class="mb-12 text-center text-4xl font-bold tracking-widest text-doom-green"
+    >
+        GALLERY
+    </h2>
+
+    <!-- Gallery stage -->
+    <div
+        id="gallery-stage"
+        class="relative mx-auto flex h-160 w-full max-w-7xl items-center justify-center overflow-hidden perspective-[1400px]"
+    >
+        <!-- Card stack -->
+        <div
+            id="card-stack"
+            class="relative h-120 w-80 transform-3d"
+        >
+            {
+                galleryImages.map((image, index) => (
+                    <GalleryCard
+                        image={image}
+                        index={index}
+                    />
+                ))
+            }
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div
+        id="gallery-controls"
+        class="relative z-5 mt-4 flex items-center justify-center gap-8"
+    >
+        <button
+            id="gallery-prev"
+            type="button"
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-doom-green/50 bg-doom-black text-2xl text-doom-green-light transition hover:scale-110 hover:bg-doom-green hover:text-doom-black"
+            aria-label="Imagen anterior"
+        >
+            ←
+        </button>
+
+        <span
+            id="gallery-counter"
+            class="min-w-20 text-center font-mono text-sm tracking-widest text-doom-white-soft/70"
+            aria-live="polite"
+        >
+            01 / 04
+        </span>
+
+        <button
+            id="gallery-next"
+            type="button"
+            class="flex h-12 w-12 items-center justify-center rounded-full border border-doom-green/50 bg-doom-black text-2xl text-doom-green-light transition hover:scale-110 hover:bg-doom-green hover:text-doom-black"
+            aria-label="Imagen siguiente"
+        >
+            →
+        </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div
+        id="gallery-lightbox"
+        class="pointer-events-none fixed inset-0 z-4 flex items-center justify-center bg-doom-black/95 opacity-0"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Vista ampliada de la imagen"
+    >
+        <button
+            id="lightbox-close"
+            type="button"
+            class="absolute right-6 top-6 z-5 flex h-12 w-12 items-center justify-center rounded-full border border-doom-green/50 bg-doom-black text-2xl text-doom-green-light transition hover:bg-doom-green hover:text-doom-black"
+            aria-label="Cerrar imagen"
+        >
+            ✕
+        </button>
+
+        <img
+            id="lightbox-image"
+            src=""
+            alt=""
+            class="max-h-[90vh] max-w-[90vw] rounded-xl object-contain shadow-2xl"
+        />
+    </div>
+</section>
+
+<script>
+    import { initializeGallery } from "../../../lib/animations/gallery";
+
+    initializeGallery();
+</script>
