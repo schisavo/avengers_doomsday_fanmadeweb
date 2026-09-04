@@ -1,199 +1,309 @@
-# Avengers: Doomsday FanMade
+# Avengers: Doomsday FanPage
 
-> ⚠️ **Disclaimer**  
-> This is a **fan-made educational project**. It is **not affiliated with Marvel Studios, Disney, or any official Avengers production**.  
-> The purpose of this site is purely **learning and practice** of modern web technologies.  
-> All names, logos, and references to *Avengers* or *Marvel* belong to their respective owners.
+<p align="center">
+  <img
+    src="./public/icons/avengers.svg"
+    alt="Avengers"
+    width="90"
+  />
+  <img
+    src="./public/icons/xmen.svg"
+    alt="Marvel"
+    width="90"
+  />
+  <img
+    src="./public/icons/fantastic4.svg"
+    alt="Doomsday"
+    width="90"
+  />
+</p>
+
+<p align="center">
+  A fan-made educational website inspired by <strong>Avengers: Doomsday</strong>.
+</p>
+
+> **Disclaimer**
+>
+> This is a fan-made educational project. It is not affiliated with Marvel Studios, Disney, or any official Avengers production.
+>
+> The purpose of this project is purely educational and focused on learning, experimentation, and frontend development practice.
+>
+> All names, logos, characters, and references to Marvel and Avengers belong to their respective owners.
+
+<img
+    src="./public/images/gallery/web_hero_section_capture.webp"
+    alt="Doomsday"
+    width="900"
+  />
 
 ---
 
 ## Project Purpose
 
-Inspired by [MiduDev](https://midu.dev) and his *Spiderman: Brand New Day* fan project, I created this website to:
+Inspired by [MiduDev](https://midu.dev) and his *Spiderman: Brand New Day* project, this website was created as a personal frontend project to explore modern web development techniques.
 
-- Practice **professional web technologies** used in real-world projects.  
-- Learn about **modular architecture** and scalable design.  
-- Experiment with **GSAP animations**, **Astro framework**, and **modern frontend workflows**.  
-- Build a **creative fan experience** while improving my developer skills.
+The main goals are:
+
+* Practice professional frontend development workflows.
+* Explore modular and scalable project architecture.
+* Apply separation of concerns across components, data, styles, and behavior.
+* Experiment with GSAP animations and scroll-based interactions.
+* Build an interactive cinematic experience using Astro.
+* Improve responsive design and frontend development skills.
+* Practice Git workflows using `develop`, feature branches, and pull requests.
 
 ---
 
 ## Tech Stack
 
-This project uses:
-
-- **[Astro](https://astro.build/)** → Static site generator with islands architecture.  
-- **GSAP** → Advanced animations and scroll effects.  
-- **TailwindCSS** → Utility-first CSS framework for styling.  
-- **TypeScript** → Safer, typed JavaScript development.  
-- **pnpm** → Fast and efficient package manager.  
+| Technology                               | Purpose                                                     |
+| :--------------------------------------- | :---------------------------------------------------------- |
+| [Astro](https://astro.build/)            | Component-based framework for building fast web experiences |
+| [GSAP](https://gsap.com/)                | Animations, transitions, and scroll-based interactions      |
+| [Tailwind CSS](https://tailwindcss.com/) | Utility-first styling system                                |
+| TypeScript                               | Typed JavaScript development                                |
+| pnpm                                     | Package management                                          |
 
 ---
 
-## Project Structure - Feature/Section-Oriented Architecture + Separation of Concerns
+## Architecture
+
+The project follows a **Feature/Section-Oriented Architecture** combined with **Separation of Concerns**.
+
+The main responsibilities are divided as follows:
+
+* `components/` → UI and rendering.
+* `data/` → Content and configuration.
+* `lib/` → Application behavior and logic.
+* `styles/` → Global styling and design tokens.
+* `layouts/` → Shared document structure.
+* `pages/` → Application routes.
+
+This structure keeps visual components, content, and application behavior independent from each other.
+
+---
+
+## Project Structure
+
 ```text
 avengers_doomsday_fanmadeweb/
 │
-├── .astro/                         # ⚙️ Generado automáticamente por Astro
-├── .git/                           # ⚙️ Historial de Git
-├── .vscode/                        # ⚙️ Configuración de VS Code
-├── node_modules/                   # ⚙️ Dependencias instaladas
+├── public/
+│   ├── favicon/
+│   ├── fonts/
+│   ├── icons/
+│   ├── images/
+│   │   ├── characters/
+│   │   ├── crew/
+│   │   ├── environments/
+│   │   ├── gallery/
+│   │   └── movies/
+│   └── videos/
 │
-├── public/                         # 📦 Todo lo que se sirve directamente
+├── src/
 │   │
-│   ├── favicon/                    # 🖼️ Favicons y variantes
+│   ├── assets/
 │   │
-│   ├── fonts/                      # 🔤 Fuentes locales
-│   │
-│   ├── icons/                      # 🎨 SVG e iconos del sitio
-│   │
-│   ├── images/                     # 🖼️ Imágenes estáticas
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── sections/
+│   │   │   ├── Hero/
+│   │   │   ├── Trailer/
+│   │   │   ├── Synopsis/
+│   │   │   ├── Cast/
+│   │   │   ├── Crew/
+│   │   │   ├── Gallery/
+│   │   │   ├── MovieInfo/
+│   │   │   └── Release/
+│   │   └── ui/
+│   ├── data/
+│   ├── lib/
+│   │   ├── animations/
+│   │   ├── effects/
+│   │   ├── navigation/
+│   │   ├── carousel/
+│   │   ├── utils/
 │   │   │
-│   │   ├── characters/             # 👤 Imágenes de personajes
-│   │   ├── environments/           # 🌆 Fondos, escenarios y parallax
-│   │   ├── gallery/                # 🖼️ Imágenes de la galería
-│   │   ├── logos/                  # 🏷️ Logos y marcas visuales
-│   │   └── ui/                     # 🎨 Recursos visuales de interfaz
+│   │   └── main.ts
 │   │
-│   └── videos/                     # 🎬 Trailers, clips y videos
+│   ├── layouts/
+│   │   └── BaseLayout.astro
+│   │
+│   ├── pages/
+│   │   └── index.astro
+│   │
+│   └── styles/
+│       ├── global.css
+│       ├── theme.css
+│       └── utilities.css
 │
-├── src/                            # 💻 Código fuente de la aplicación
-│   │
-│   ├── assets/                     # 📦 Assets que Astro procesa/bundlea
-│   │
-│   ├── components/                 # 🧩 Interfaz visual
-│   │   │
-│   │   ├── layout/                 # 🏗️ Elementos estructurales globales
-│   │   │   ├── SiteHeader.astro    # Cabecera global
-│   │   │   ├── CornerMenu.astro    # Menú principal
-│   │   │   └── SiteFooter.astro    # Footer global
-│   │   │
-│   │   ├── sections/               # 🎬 Secciones principales de la web
-│   │   │   │
-│   │   │   ├── Hero/               # ⚡ Hero principal
-│   │   │   │   ├── Hero.astro
-│   │   │   │   ├── HeroLayers.astro
-│   │   │   │   └── HeroContent.astro
-│   │   │   │
-│   │   │   ├── Trailer/             # 🎬 Sección del trailer
-│   │   │   │   └── Trailer.astro
-│   │   │   │
-│   │   │   ├── Synopsis/            # 📖 Sinopsis
-│   │   │   │   └── Synopsis.astro
-│   │   │   │
-│   │   │   ├── Cast/                # 👥 Reparto
-│   │   │   │   ├── Cast.astro
-│   │   │   │   └── CastCard.astro
-│   │   │   │
-│   │   │   ├── Crew/                # 🎥 Equipo creativo
-│   │   │   │   ├── Crew.astro
-│   │   │   │   └── CrewCard.astro
-│   │   │   │
-│   │   │   ├── Gallery/             # 🖼️ Galería
-│   │   │   │   ├── Gallery.astro
-│   │   │   │   └── GalleryCard.astro
-│   │   │   │
-│   │   │   ├── MovieInfo/           # 🎞️ Información de la película
-│   │   │   │   └── MovieInfo.astro
-│   │   │   │
-│   │   │   └── Release/             # ⏳ Estreno + contador + declaración
-│   │   │       └── ReleaseSection.astro
-│   │   │
-│   │   └── ui/                     # 🧩 Componentes pequeños reutilizables
-│   │       ├── Button.astro
-│   │       ├── Countdown.astro
-│   │       ├── ExpandableCard.astro
-│   │       └── SectionLabel.astro
-│   │
-│   ├── data/                       # 🗃️ Contenido de la aplicación
-│   │   ├── movie.ts                # Datos generales de la película
-│   │   ├── cast.ts                 # Reparto
-│   │   ├── crew.ts                 # Equipo
-│   │   ├── gallery.ts              # Datos de imágenes de galería
-│   │   ├── navigation.ts           # Items del menú
-│   │   └── quotes.ts               # Frases/textos
-│   │
-│   ├── lib/                        # 🧠 Lógica y comportamiento
-│   │   │
-│   │   ├── animations/             # 🎞️ GSAP + ScrollTrigger
-│   │   │   ├── hero.ts             # Animaciones del Hero
-│   │   │   ├── gallery.ts          # Animaciones de galería
-│   │   │   ├── release.ts          # Animaciones del Release
-│   │   │   ├── footer.ts           # Animaciones del Footer
-│   │   │   ├── menu.ts             # Animaciones del menú
-│   │   │   └── scrollSpy.ts        # Estado activo según scroll
-│   │   │
-│   │   ├── effects/                # ✨ Sistemas visuales complejos
-│   │   │   ├── heroMagic.ts        # Magia verde alrededor de Doom
-│   │   │   ├── debris.ts           # Polvo/escombros
-│   │   │   └── particles.ts        # Partículas genéricas
-│   │   │
-│   │   ├── navigation/             # 🧭 Lógica de navegación
-│   │   │   ├── menu.ts             # Abrir/cerrar menú
-│   │   │   └── scrollToSection.ts   # Scroll hacia secciones
-│   │   │
-│   │   ├── utils/                  # 🔧 Funciones auxiliares
-│   │   │   ├── dom.ts              # Helpers para DOM
-│   │   │   ├── dates.ts             # Fechas/contador
-│   │   │   ├── viewport.ts          # Tamaños y responsive
-│   │   │   └── imageCoordinates.ts  # Coordenadas de imágenes
-│   │   │
-│   │   └── main.ts                 # 🚀 Inicializador principal
-│   │
-│   ├── layouts/                    # 🏗️ Layouts de Astro
-│   │   └── BaseLayout.astro        # Layout global HTML
-│   │
-│   ├── pages/                      # 🌐 Rutas
-│   │   └── index.astro             # Página principal /
-│   │
-│   └── styles/                     # 🎨 CSS global
-│       ├── global.css              # Reset + estilos globales
-│       ├── variables.css           # Variables del proyecto
-│       └── utilities.css            # Clases/utilidades propias
-│
-├── .gitignore                      # 🚫 Archivos ignorados por Git
-├── AGENTS.md                       # 🤖 Instrucciones para agentes
-├── CLAUDE.md                       # 🤖 Instrucciones para Claude
-├── astro.config.mjs                # ⚙️ Configuración de Astro
-├── package.json                    # 📦 Dependencias y scripts
-├── pnpm-lock.yaml                  # 🔒 Lockfile
-├── pnpm-workspace.yaml             # ⚙️ Configuración PNPM
-├── README.md                       # 📚 Documentación
-└── tsconfig.json                   # ⚙️ Configuración TypeScript
+├── .gitignore
+├── AGENTS.md
+├── CLAUDE.md
+├── astro.config.mjs
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── README.md
+└── tsconfig.json
 ```
+
+---
+
+## Features
+
+### Hero
+
+* Layered visual composition.
+* GSAP-based animations.
+* Parallax effects.
+* Animated phrases.
+* Interactive navigation controls.
+
+### Trailer
+
+* Responsive video presentation.
+* Styled cinematic container.
+* Responsive layout.
+
+### Synopsis
+
+* Structured movie information.
+* Responsive typography and layout.
+
+### Cast
+
+* Interactive cast cards.
+* Actor and character imagery.
+* Team identification.
+* Responsive carousel.
+* Mobile interaction support.
+
+### Crew
+
+* Interactive crew cards.
+* Featured work information.
+* Responsive carousel.
+
+### Gallery
+
+* Interactive card stack.
+* GSAP transitions.
+* Previous and next navigation.
+* Image counter.
+* Lightbox presentation.
+
+### Preloader
+
+* Animated cinematic introduction.
+* Incursion-inspired visual effect.
+* GSAP timeline synchronization.
+* Controlled transition into the main experience.
+
+### Release
+
+* Movie release date.
+* Dynamic countdown.
+* Atmospheric visual effects.
+* Project information card.
+
+### Corner Menu
+
+* Fixed circular navigation.
+* Section-based navigation.
+* Active section detection.
+* Scroll-based state updates.
+* GSAP transitions.
+* Responsive interaction.
+
+---
 
 ## Commands
 
-All commands are run from the root of the project, from a terminal:
+All commands are executed from the project root.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`            | Installs dependencies                            |
-| `pnpm dev`                | Starts local dev server at `localhost:4321`      |
-| `pnpm build`              | Build your production site to `./dist/`          |
-| `pnpm preview`            | Preview your build locally, before deploying     |
-| `pnpm astro ...`          | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help`    | Get help using the Astro CLI                     |
-|______________________________________________________________________________|
+| Command            | Action                               |
+| :----------------- | :----------------------------------- |
+| `pnpm install`     | Install project dependencies         |
+| `pnpm dev`         | Start the local development server   |
+| `pnpm build`       | Build the production site            |
+| `pnpm preview`     | Preview the production build locally |
+| `pnpm astro check` | Run Astro and TypeScript checks      |
+| `pnpm astro ...`   | Run Astro CLI commands               |
 
+The development server runs by default at:
 
-## Features Implemented
+```text
+http://localhost:4321
+```
 
-- **Hero Section** → Parallax + GSAP animations.
-- **Trailer Section** → Embedded video player with styled container.
-- **Gallery Component** → Interactive image gallery with lightbox and transitions.
-- **Preloader** → GSAP animated intro with cinematic effect.
-- **Infinite Panels** → Scroll-based transitions between sections.
-- **Corner Frame Menu** → Custom navigation with tooltips and GSAP hover effects.
+---
+
+## Development Workflow
+
+The project follows a feature-oriented Git workflow.
+
+```text
+main
+  ↑
+develop
+  ↑
+feature/*
+```
+
+New functionality should be developed in a dedicated feature branch and merged into `develop` through a pull request.
+
+Example:
+
+```bash
+git checkout develop
+git pull origin develop
+
+git checkout -b feature/gallery-improvements
+```
+
+After completing the feature:
+
+```bash
+git add .
+git commit -m "feat(gallery): improve gallery interactions"
+
+git push -u origin feature/gallery-improvements
+```
+
+The feature branch should then be reviewed and merged into `develop`.
+
 ---
 
 ## Learning Goals
 
-This project is part of my journey to:
+This project is part of my ongoing frontend development journey.
 
-- Understand frontend animation workflows with GSAP.
-- Apply responsive design with TailwindCSS.
-- Explore Astro’s component-based architecture.
-- Practice Git branching strategies (develop, feature/*, PRs).
+The main learning objectives are:
+
+* Understand modern Astro architecture.
+* Improve TypeScript usage.
+* Build reusable and maintainable components.
+* Apply separation of concerns.
+* Develop animation systems with GSAP.
+* Create responsive interfaces with Tailwind CSS.
+* Organize frontend projects using scalable architecture.
+* Practice professional Git workflows and pull requests.
 
 ---
+
+## Credits
+
+Inspired by the work and educational content of [MiduDev](https://midu.dev).
+
+This project is independently developed for educational and personal learning purposes.
+
+---
+
+## Disclaimer
+
+This website is a non-commercial fan-made project.
+
+It is not affiliated with, endorsed by, sponsored by, or connected to Marvel Studios, Disney, or any official Avengers production.
+
+All intellectual property, characters, names, logos, and related materials belong to their respective owners.
