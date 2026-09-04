@@ -1,0 +1,19 @@
+---
+import HeroBackground from './HeroParalax.astro';
+import HeroFrame from './HeroFrame.astro';
+import HeroText from './HeroText.astro';
+import HeroScrollButton from './HeroScrollButton.astro';
+---
+
+<section
+    id="hero"
+    class="hero relative h-screen w-full overflow-hidden">
+    <!-- Background and parallax layers -->
+    <HeroBackground />
+    <!-- Decorative frame and corner navigation -->
+    <HeroFrame />
+    <!-- Dynamic hero phrase -->
+    <HeroText />
+    <!-- Navigation cue to the next section -->
+    <HeroScrollButton />
+</section>

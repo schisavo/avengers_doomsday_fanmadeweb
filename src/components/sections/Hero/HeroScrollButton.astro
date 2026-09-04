@@ -1,0 +1,31 @@
+<!-- Navigation cue to the trailer section -->
+<a
+    href="#trailer"
+    aria-label="Ir a la información de la película"
+    class="absolute bottom-[clamp(50px,10vh,70px)] left-1/2 z-4 flex -translate-x-1/2 cursor-pointer flex-col items-center gap-5 text-doom-white no-underline transition-transform duration-300 hover:-translate-x-1/2 hover:-translate-y-5"
+>
+    <span
+        class="animate-[scrollBounce_1.8s_ease-in-out_infinite] text-3xl leading-none"
+    >
+        ↓
+    </span>
+
+    <span
+        class="text-[0.65rem] font-semibold tracking-[0.25em] whitespace-nowrap"
+    >
+        Find Out
+    </span>
+</a>
+
+<style>
+    @keyframes scrollBounce {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(7px);
+        }
+    }
+</style>

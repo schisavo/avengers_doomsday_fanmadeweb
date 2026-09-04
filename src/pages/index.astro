@@ -1,33 +1,39 @@
 ---
-import '../styles/global.css'
-import Preloader from '../components/preloader/Preloader.astro'
-import Hero from '../components/hero/Hero.astro'
-import MovieInfo from '../components/movie/MovieInfo.astro'
+/* Layout principal */
+import BaseLayout from "../layouts/BaseLayout.astro";
+/* Pantalla de carga inicial */
+import Preloader from "../components/preloader/Preloader.astro";
+/* Secciones principales */
+import Hero from "../components/sections/Hero/Hero.astro";
+import Trailer from "../components/sections/Trailer/Trailer.astro";
+import Synopsis from "../components/sections/Synopsis/Synopsis.astro";
+import Cast from "../components/sections/Cast/Cast.astro";
+import Crew from "../components/sections/Crew/Crew.astro";
+import Gallery from "../components/sections/Gallery/Gallery.astro";
+import Release from "../components/sections/Release/Release.astro";
+/* Navegacion global */
+import CornerMenu from "../components/ui/CornerMenu/CornerMenu.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
-    	<link rel="icon" href="/favicon.ico" sizes="48x48 32x32 16x16" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>FanPage - Avengers Doomsday</title>
-	</head>
-	<body>
-		<Preloader />
-		
-		<!-- Hero - Presentation Section: Paralax effect, words effect, frame effect -->
-        <section id="hero" class="scroll-mt-24">
-            <Hero />
-        </section>
-		<!-- Movie info: trailer, sypnosis, cast, crew,  -->
-		<MovieInfo />
+<BaseLayout
+	title="Avengers: Doomsday — Fan Page"
+	description="Fan-made website dedicated to Avengers: Doomsday."
+>
+	<!-- Pantalla de carga -->
+	<Preloader />
 
+	<!-- Contenido principal -->
+	<main>
+		<!-- Menu de navegacion -->
+		<CornerMenu />
 
-
-		<script>
-			import "../lib/main.ts";
-		</script>
-	</body>
-</html>
+		<!-- Secciones de la pagina -->
+		<Hero />
+		<Trailer />
+		<Synopsis />
+		<Cast />
+		<Crew />
+		<Gallery />
+		<Release />
+	</main>
+</BaseLayout>

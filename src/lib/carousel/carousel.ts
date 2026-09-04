@@ -1,547 +1,419 @@
-import { gsap } from "gsap";
+export interface CarouselElements {
+    carousel: HTMLElement;
+    viewport: HTMLElement;
+    track: HTMLElement;
+    items: HTMLElement[];
+    prev: HTMLButtonElement;
+    next: HTMLButtonElement;
+    dots: HTMLElement;
+    filterButtons: HTMLButtonElement[];
+}
 
-const initPeopleCarousels = () => {
-  const carousels =
-    document.querySelectorAll<HTMLElement>(
-      "[data-people-carousel]"
+export function initializeCarousel(): void {
+    const carousels =
+        document.querySelectorAll<HTMLElement>(
+            "[data-simple-carousel]",
+        );
+
+    carousels.forEach((carousel) => {
+        const elements = getCarouselElements(carousel);
+
+        if (!elements) {
+            return;
+        }
+
+        setupCarousel(elements);
+    });
+}
+
+function getCarouselElements(
+    carousel: HTMLElement,
+): CarouselElements | null {
+    const viewport =
+        carousel.querySelector<HTMLElement>(
+            "[data-carousel-viewport]",
+        );
+
+    const track =
+        carousel.querySelector<HTMLElement>(
+            "[data-carousel-track]",
+        );
+
+    const items = Array.from(
+        track?.children ?? [],
+    ).filter(
+        (element): element is HTMLElement =>
+            element instanceof HTMLElement,
     );
 
-  carousels.forEach((carousel) => {
-    const viewport =
-      carousel.querySelector<HTMLElement>(
-        "[data-people-viewport]"
-      );
+    const prev =
+        carousel.querySelector<HTMLButtonElement>(
+            "[data-carousel-prev]",
+        );
 
-    const prevButton =
-      carousel.querySelector<HTMLButtonElement>(
-        "[data-people-prev]"
-      );
+    const next =
+        carousel.querySelector<HTMLButtonElement>(
+            "[data-carousel-next]",
+        );
 
-    const nextButton =
-      carousel.querySelector<HTMLButtonElement>(
-        "[data-people-next]"
-      );
+    const dots =
+        carousel.querySelector<HTMLElement>(
+            "[data-carousel-dots]",
+        );
 
     const filterButtons = Array.from(
-      carousel.querySelectorAll<HTMLButtonElement>(
-        "[data-people-filter]"
-      )
+        carousel.querySelectorAll<HTMLButtonElement>(
+            "[data-carousel-filter]",
+        ),
     );
 
-    const memberElements = Array.from(
-      carousel.querySelectorAll<HTMLElement>(
-        "[data-people-member]"
-      )
-    );
-
-    if (!viewport || !prevButton || !nextButton) {
-      return;
+    if (
+        !viewport ||
+        !track ||
+        !prev ||
+        !next ||
+        !dots ||
+        items.length === 0
+    ) {
+        return null;
     }
 
-    let currentIndex = 0;
-    let currentFilter = "all";
+    return {
+        carousel,
+        viewport,
+        track,
+        items,
+        prev,
+        next,
+        dots,
+        filterButtons,
+    };
+}
 
-    let isDragging = false;
-    let startX = 0;
-    let startScrollLeft = 0;
+function setupCarousel(
+    elements: CarouselElements,
+): void {
+    const {
+        carousel,
+        viewport,
+        track,
+        items,
+        prev,
+        next,
+        dots,
+        filterButtons,
+    } = elements;
 
-    /*
-     * ==============================
-     * ELEMENTOS VISIBLES
-     * ==============================
-     */
+    let currentPage = 0;
+    let cardsPerPage = 2;
+    let pageCount = 1;
 
-    const getVisibleMembers = () => {
-      return memberElements.filter((member) => {
-        return (
-          currentFilter === "all" ||
-          member.dataset.filterValue === currentFilter
-        );
-      });
+    // Null significa que todos los elementos estan visibles.
+    let activeFilter: string | null = null;
+
+    // Devuelve la cantidad de tarjetas visibles segun el viewport.
+    const getCardsPerPage = (): number => {
+        if (window.innerWidth < 640) {
+            return 2;
+        }
+
+        if (window.innerWidth < 1024) {
+            return 4;
+        }
+
+        return 6;
     };
 
-    /*
-     * ==============================
-     * BOTONES
-     * ==============================
-     */
+    // Devuelve los elementos que pertenecen al filtro activo.
+    const getVisibleItems = (): HTMLElement[] => {
+        return items.filter((item) => {
+            if (!activeFilter) {
+                return true;
+            }
 
-    const updateButtons = () => {
-      const visibleMembers = getVisibleMembers();
-
-      prevButton.disabled =
-        currentIndex <= 0;
-
-      nextButton.disabled =
-        visibleMembers.length === 0 ||
-        currentIndex >= visibleMembers.length - 1;
-    };
-
-    /*
-     * ==============================
-     * DOTS
-     * ==============================
-     */
-
-    const updateDots = () => {
-      const dotsContainer =
-        carousel.querySelector<HTMLElement>(
-          "[data-people-dots]"
-        );
-
-      if (!dotsContainer) {
-        return;
-      }
-
-      const visibleMembers = getVisibleMembers();
-
-      dotsContainer.innerHTML = "";
-
-      visibleMembers.forEach((_, index) => {
-        const dot =
-          document.createElement("button");
-
-        dot.type = "button";
-
-        dot.setAttribute(
-          "aria-label",
-          `Ir al elemento ${index + 1}`
-        );
-
-        dot.className =
-          index === currentIndex
-            ? "h-1.5 w-6 rounded-full bg-[#05a85c] transition-all duration-300"
-            : "h-1.5 w-1.5 rounded-full bg-white/20 transition-all duration-300";
-
-        dot.addEventListener("click", () => {
-          goTo(index);
+            return item.dataset.team === activeFilter;
         });
-
-        dotsContainer.appendChild(dot);
-      });
     };
 
-    const refreshDots = () => {
-      const dots =
-        Array.from(
-          carousel.querySelectorAll<HTMLButtonElement>(
-            "[data-people-dots] button"
-          )
-        );
+    // Muestra u oculta los elementos segun el filtro seleccionado.
+    const updateFilterVisibility = (): void => {
+        items.forEach((item) => {
+            const shouldShow =
+                !activeFilter ||
+                item.dataset.team === activeFilter;
 
-      dots.forEach((dot, index) => {
-        if (index === currentIndex) {
-          dot.classList.remove(
-            "w-1.5",
-            "bg-white/20"
-          );
-
-          dot.classList.add(
-            "w-6",
-            "bg-[#05a85c]"
-          );
-        } else {
-          dot.classList.remove(
-            "w-6",
-            "bg-[#05a85c]"
-          );
-
-          dot.classList.add(
-            "w-1.5",
-            "bg-white/20"
-          );
-        }
-      });
-    };
-
-    /*
-     * ==============================
-     * POSICIÓN
-     * ==============================
-     */
-
-    const getCardPosition = (
-      index: number
-    ) => {
-      const visibleMembers =
-        getVisibleMembers();
-
-      const card = visibleMembers[index];
-
-      if (!card) {
-        return 0;
-      }
-
-      return card.offsetLeft - 16;
-    };
-
-    /*
-     * ==============================
-     * IR A ELEMENTO
-     * ==============================
-     */
-
-    const goTo = (
-      index: number,
-      animate = true
-    ) => {
-      const visibleMembers =
-        getVisibleMembers();
-
-      if (!visibleMembers.length) {
-        return;
-      }
-
-      currentIndex = Math.max(
-        0,
-        Math.min(
-          index,
-          visibleMembers.length - 1
-        )
-      );
-
-      const target =
-        getCardPosition(currentIndex);
-
-      gsap.killTweensOf(viewport);
-
-      if (animate) {
-        gsap.to(viewport, {
-          scrollLeft: target,
-          duration: 0.65,
-          ease: "power3.out",
-          overwrite: true,
+            item.classList.toggle(
+                "hidden",
+                !shouldShow,
+            );
         });
-      } else {
-        viewport.scrollLeft = target;
-      }
-
-      updateButtons();
-      refreshDots();
     };
 
-    /*
-     * ==============================
-     * ACTUALIZAR ELEMENTOS
-     * ==============================
-     */
+    // Actualiza el estado visual y accesible de los filtros.
+    const updateFilterButtons = (): void => {
+        filterButtons.forEach((button) => {
+            const filter =
+                button.dataset.carouselFilter;
 
-    const updateMembers = () => {
-      const visibleMembers =
-        getVisibleMembers();
-
-      memberElements.forEach((member) => {
-        const isVisible =
-          currentFilter === "all" ||
-          member.dataset.filterValue ===
-            currentFilter;
-
-        member.style.display =
-          isVisible ? "" : "none";
-      });
-
-      currentIndex = 0;
-
-      gsap.killTweensOf(viewport);
-
-      viewport.scrollLeft = 0;
-
-      updateDots();
-
-      gsap.fromTo(
-        visibleMembers,
-        {
-          opacity: 0,
-          y: 20,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.45,
-          stagger: 0.06,
-          ease: "power3.out",
-        }
-      );
-
-      updateButtons();
-    };
-
-    /*
-     * ==============================
-     * FILTROS
-     * ==============================
-     */
-
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const filter =
-          button.dataset.peopleFilter;
-
-        if (!filter) {
-          return;
-        }
-
-        currentFilter = filter;
-
-        filterButtons.forEach(
-          (filterButton) => {
             const isActive =
-              filterButton.dataset
-                .peopleFilter ===
-              currentFilter;
+                filter === activeFilter;
 
-            filterButton.setAttribute(
-              "aria-pressed",
-              String(isActive)
+            button.setAttribute(
+                "aria-pressed",
+                String(isActive),
             );
 
-            filterButton.classList.toggle(
-              "border-[#05a85c]",
-              isActive
+            button.classList.toggle(
+                "scale-105",
+                isActive,
             );
 
-            filterButton.classList.toggle(
-              "bg-[#05a85c]",
-              isActive
+            button.classList.toggle(
+                "ring-1",
+                isActive,
             );
 
-            filterButton.classList.toggle(
-              "text-white",
-              isActive
+            button.classList.toggle(
+                "ring-white/40",
+                isActive,
+            );
+        });
+    };
+
+    // Calcula el ancho de cada tarjeta visible.
+    const updateCardWidths = (): void => {
+        const viewportWidth =
+            viewport.clientWidth;
+
+        if (viewportWidth <= 0) {
+            return;
+        }
+
+        const visibleItems =
+            getVisibleItems();
+
+        if (visibleItems.length === 0) {
+            return;
+        }
+
+        const styles =
+            window.getComputedStyle(track);
+
+        const gap =
+            parseFloat(styles.columnGap) || 0;
+
+        const totalGap =
+            gap * (cardsPerPage - 1);
+
+        const cardWidth =
+            (viewportWidth - totalGap) /
+            cardsPerPage;
+
+        visibleItems.forEach((item) => {
+            item.style.width =
+                `${cardWidth}px`;
+        });
+    };
+
+    // Genera los indicadores de paginacion.
+    const renderDots = (): void => {
+        dots.innerHTML = "";
+
+        if (pageCount <= 1) {
+            return;
+        }
+
+        for (
+            let index = 0;
+            index < pageCount;
+            index++
+        ) {
+            const dot =
+                document.createElement("button");
+
+            dot.type = "button";
+
+            dot.className =
+                "h-1.5 rounded-full transition-all duration-300";
+
+            dot.classList.toggle(
+                "w-5",
+                index === currentPage,
             );
 
-            filterButton.classList.toggle(
-              "border-white/10",
-              !isActive
+            dot.classList.toggle(
+                "bg-emerald-500",
+                index === currentPage,
             );
 
-            filterButton.classList.toggle(
-              "bg-white/5",
-              !isActive
+            dot.classList.toggle(
+                "w-1.5",
+                index !== currentPage,
             );
 
-            filterButton.classList.toggle(
-              "text-white/70",
-              !isActive
+            dot.classList.toggle(
+                "bg-white/20",
+                index !== currentPage,
             );
-          }
+
+            dot.setAttribute(
+                "aria-label",
+                `Ir a la pagina ${index + 1}`,
+            );
+
+            dot.addEventListener(
+                "click",
+                () => goToPage(index),
+            );
+
+            dots.appendChild(dot);
+        }
+    };
+
+    // Mueve el carousel a una pagina especifica.
+    const goToPage = (page: number): void => {
+        const visibleItems =
+            getVisibleItems();
+
+        if (
+            pageCount <= 0 ||
+            visibleItems.length === 0
+        ) {
+            return;
+        }
+
+        currentPage = Math.max(
+            0,
+            Math.min(
+                page,
+                pageCount - 1,
+            ),
         );
 
-        updateMembers();
-      });
+        const targetIndex =
+            currentPage * cardsPerPage;
+
+        const target =
+            visibleItems[targetIndex];
+
+        if (!target) {
+            return;
+        }
+
+        track.style.transform =
+            `translate3d(-${target.offsetLeft}px, 0, 0)`;
+
+        prev.disabled =
+            currentPage === 0;
+
+        next.disabled =
+            currentPage === pageCount - 1;
+
+        renderDots();
+    };
+
+    // Recalcula la estructura del carousel.
+    const updateCarousel = (
+        resetPage = false,
+    ): void => {
+        cardsPerPage =
+            getCardsPerPage();
+
+        const visibleItems =
+            getVisibleItems();
+
+        pageCount = Math.max(
+            1,
+            Math.ceil(
+                visibleItems.length /
+                    cardsPerPage,
+            ),
+        );
+
+        if (resetPage) {
+            currentPage = 0;
+        } else {
+            currentPage = Math.min(
+                currentPage,
+                pageCount - 1,
+            );
+        }
+
+        updateCardWidths();
+        goToPage(currentPage);
+    };
+
+    // Configura los filtros por equipo.
+    filterButtons.forEach((button) => {
+        button.addEventListener(
+            "click",
+            () => {
+                const filter =
+                    button.dataset.carouselFilter;
+
+                if (!filter) {
+                    return;
+                }
+
+                activeFilter =
+                    activeFilter === filter
+                        ? null
+                        : filter;
+
+                updateFilterVisibility();
+                updateFilterButtons();
+                updateCarousel(true);
+            },
+        );
     });
 
-    /*
-     * ==============================
-     * PREV / NEXT
-     * ==============================
-     */
-
-    prevButton.addEventListener(
-      "click",
-      () => {
-        goTo(currentIndex - 1);
-      }
+    // Boton anterior.
+    prev.addEventListener(
+        "click",
+        () => {
+            goToPage(
+                currentPage - 1,
+            );
+        },
     );
 
-    nextButton.addEventListener(
-      "click",
-      () => {
-        goTo(currentIndex + 1);
-      }
+    // Boton siguiente.
+    next.addEventListener(
+        "click",
+        () => {
+            goToPage(
+                currentPage + 1,
+            );
+        },
     );
 
-    /*
-     * ==============================
-     * TECLADO
-     * ==============================
-     */
-
-    viewport.addEventListener(
-      "keydown",
-      (event) => {
-        if (
-          event.key === "ArrowRight"
-        ) {
-          event.preventDefault();
-          goTo(currentIndex + 1);
-        }
-
-        if (
-          event.key === "ArrowLeft"
-        ) {
-          event.preventDefault();
-          goTo(currentIndex - 1);
-        }
-
-        if (event.key === "Home") {
-          event.preventDefault();
-          goTo(0);
-        }
-
-        if (event.key === "End") {
-          event.preventDefault();
-
-          goTo(
-            getVisibleMembers().length - 1
-          );
-        }
-      }
-    );
-
-    /*
-     * ==============================
-     * DRAG
-     * ==============================
-     */
-
-    viewport.addEventListener(
-      "pointerdown",
-      (event) => {
-        isDragging = true;
-
-        startX = event.clientX;
-        startScrollLeft =
-          viewport.scrollLeft;
-
-        viewport.setPointerCapture(
-          event.pointerId
-        );
-
-        viewport.style.cursor =
-          "grabbing";
-
-        viewport.style.scrollSnapType =
-          "none";
-
-        gsap.killTweensOf(viewport);
-      }
-    );
-
-    viewport.addEventListener(
-      "pointermove",
-      (event) => {
-        if (!isDragging) {
-          return;
-        }
-
-        const distance =
-          event.clientX - startX;
-
-        viewport.scrollLeft =
-          startScrollLeft - distance;
-      }
-    );
-
-    const stopDragging = (
-      event: PointerEvent
-    ) => {
-      if (!isDragging) {
-        return;
-      }
-
-      isDragging = false;
-
-      viewport.style.cursor = "";
-      viewport.style.scrollSnapType = "";
-
-      try {
-        viewport.releasePointerCapture(
-          event.pointerId
-        );
-      } catch {
-        // Pointer ya liberado.
-      }
-
-      const visibleMembers =
-        getVisibleMembers();
-
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-
-      visibleMembers.forEach(
-        (member, index) => {
-          const distance = Math.abs(
-            member.offsetLeft -
-              viewport.scrollLeft
-          );
-
-          if (
-            distance < closestDistance
-          ) {
-            closestDistance = distance;
-            closestIndex = index;
-          }
-        }
-      );
-
-      goTo(closestIndex);
-    };
-
-    viewport.addEventListener(
-      "pointerup",
-      stopDragging
-    );
-
-    viewport.addEventListener(
-      "pointercancel",
-      stopDragging
-    );
-
-    /*
-     * ==============================
-     * MOUSE WHEEL
-     * ==============================
-     */
-
-    viewport.addEventListener(
-      "wheel",
-      (event) => {
-        if (
-          Math.abs(event.deltaY) >
-          Math.abs(event.deltaX)
-        ) {
-          if (event.shiftKey) {
-            event.preventDefault();
-
-            viewport.scrollLeft +=
-              event.deltaY;
-          }
-        }
-      },
-      { passive: false }
-    );
-
-    /*
-     * ==============================
-     * RESIZE
-     * ==============================
-     */
-
+    // Mantiene el carousel sincronizado con el viewport.
     const resizeObserver =
-      new ResizeObserver(() => {
-        goTo(currentIndex, false);
-      });
+        new ResizeObserver(() => {
+            const newCardsPerPage =
+                getCardsPerPage();
+
+            const breakpointChanged =
+                newCardsPerPage !==
+                cardsPerPage;
+
+            updateCarousel(
+                breakpointChanged,
+            );
+        });
 
     resizeObserver.observe(viewport);
 
-    /*
-     * ==============================
-     * INICIALIZACIÓN
-     * ==============================
-     */
+    // Configuracion inicial.
+    requestAnimationFrame(() => {
+        updateFilterVisibility();
+        updateFilterButtons();
+        updateCarousel(true);
 
-    updateMembers();
-    updateButtons();
-  });
-};
-
-if (document.readyState === "loading") {
-  document.addEventListener(
-    "DOMContentLoaded",
-    initPeopleCarousels,
-    { once: true }
-  );
-} else {
-  initPeopleCarousels();
+        requestAnimationFrame(() => {
+            carousel.classList.remove(
+                "opacity-0",
+            );
+        });
+    });
 }

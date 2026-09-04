@@ -1,0 +1,108 @@
+---
+import type { CrewMember } from "../../../data/crew";
+
+interface Props {
+    member: CrewMember;
+}
+
+const { member } = Astro.props;
+---
+
+<article
+    class="group relative flex aspect-3/4 w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-doom-border bg-doom-black-light transition-transform duration-500 ease-out hover:-translate-y-1"
+>
+    <!-- Imagen de la persona -->
+    <img
+        src={member.image}
+        alt={member.name}
+        loading="lazy"
+        draggable="false"
+        class="person-img absolute inset-0 h-full w-full object-cover transition-all duration-500 ease-out group-hover:scale-[1.03] group-hover:opacity-40"
+    />
+
+    <!-- Pelicula o serie destacada -->
+    <div
+        class="work-poster pointer-events-none absolute inset-0 flex translate-y-[25%] items-end justify-center opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100"
+    >
+        <img
+            src={member.work.image}
+            alt={member.work.title}
+            loading="lazy"
+            draggable="false"
+            class="h-full w-full object-cover"
+        />
+    </div>
+
+    <!-- Gradiente para mejorar la lectura del contenido -->
+    <div
+        class="pointer-events-none absolute inset-0 bg-linear-to-t from-doom-black via-doom-black/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+    ></div>
+
+    <!-- Indicador de Marvel -->
+    {
+        member.work.marvel && (
+            <span class="absolute right-2 top-2 z-20 rounded-md border border-doom-border-strong bg-doom-black/50 px-2 py-1 text-[0.55rem] font-bold uppercase tracking-[0.15em] text-doom-white shadow-lg backdrop-blur-md sm:right-3 sm:top-3">
+                Marvel
+            </span>
+        )
+    }
+
+    <!-- Informacion del trabajo destacado -->
+    <div
+        class="pointer-events-none absolute inset-x-0 bottom-0 z-20 translate-y-3 px-3 pb-3 opacity-0 transition-all duration-500 ease-out group-hover:translate-y-0 group-hover:opacity-100 sm:px-4 sm:pb-4"
+    >
+        <p
+            class="text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-doom-white-half"
+        >
+            Trabajo destacado
+        </p>
+
+        <h3
+            class="mt-1 line-clamp-2 text-sm font-bold leading-tight text-doom-white sm:text-base"
+        >
+            {member.work.title}
+        </h3>
+
+        <p
+            class="mt-1 text-[0.65rem] text-doom-white-transparent sm:text-xs"
+        >
+            {member.work.year}
+            ·
+            {member.work.type === "movie"
+                ? "Película"
+                : "Serie"}
+        </p>
+    </div>
+
+    <!-- Borde de resaltado -->
+    <div
+        class="pointer-events-none absolute inset-0 rounded-lg border border-transparent transition-colors duration-500 group-hover:border-doom-green-border"
+    ></div>
+
+    <!-- Contenedor reservado para informacion adicional -->
+    <div
+        class="absolute inset-x-0 bottom-0 z-30 translate-y-full px-3 pb-3 transition-transform duration-500 ease-out group-hover:translate-y-full sm:px-4"
+    ></div>
+</article>
+
+<!-- Informacion visible debajo de la tarjeta -->
+<div class="mt-2 w-full text-center">
+    <p
+        class="person-name text-xs font-semibold text-doom-white transition-colors duration-300 sm:text-sm group-hover:text-doom-white-half"
+    >
+        {member.name}
+    </p>
+
+    <p
+        class="mt-0.5 text-[0.65rem] font-medium uppercase tracking-wider text-doom-white-faded sm:text-xs"
+    >
+        {member.role}
+    </p>
+
+    <!-- Nombre del trabajo visible solamente en mobile -->
+    <p
+        class="work-name mt-1 line-clamp-1 text-[0.65rem] font-medium text-doom-white-faded sm:hidden"
+    >
+        {member.work.title}
+    </p>
+</div>

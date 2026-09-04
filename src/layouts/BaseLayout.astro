@@ -1,0 +1,60 @@
+---
+import "../styles/global.css";
+
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "Avengers: Doomsday — Fan Page",
+    description = "Fan-made website dedicated to Avengers: Doomsday.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Configuracion basica del documento -->
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        />
+        <meta
+            name="generator"
+            content={Astro.generator}
+        />
+
+        <!-- Metadata de la pagina -->
+        <meta
+            name="description"
+            content={description}
+        />
+
+        <!-- Iconos del sitio -->
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="48x48"
+            href="/favicon/favicon.png"
+        />
+        <link
+            rel="icon"
+            href="/favicon/favicon.ico"
+            sizes="48x48 32x32 16x16"
+        />
+
+        <!-- Titulo de la pagina -->
+        <title>{title}</title>
+    </head>
+
+    <body class="bg-doom-black">
+        <slot />
+
+        <!-- Script principal del sitio -->
+        <script>
+            import "../lib/main.ts";
+        </script>
+    </body>
+</html>

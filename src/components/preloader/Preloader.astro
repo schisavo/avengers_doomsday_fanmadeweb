@@ -1,33 +1,40 @@
+---
+---
+
 <div
     id="preloader"
-    class="fixed inset-0 z-15 flex items-center justify-center overflow-hidden bg-black"
-    aria-hidden="true">
-    <!-- Aura central: Dibujo de la explosion alrededor de punto de colision -->
+    class="fixed inset-0 z-15 flex items-center justify-center overflow-hidden bg-doom-black"
+    aria-hidden="true"
+>
+    <!-- Aura central de la colision -->
     <div
-        class="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl"
-        data-incursion-glow>
-    </div>
-    <!-- Punto de colision: Punto donde se encuentran los planetas se encuentran -->
+        class="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-doom-green-glow blur-3xl"
+        data-incursion-glow
+    ></div>
+
+    <!-- Punto central donde convergen las incursiones -->
     <div
-        class="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-300 opacity-0"
-        data-incursion-core>
-    </div>
-    <!-- Las tres incursiones: Planetas que colisionan (3) -->
+        class="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-doom-green-light opacity-0"
+        data-incursion-core
+    ></div>
+
+    <!-- Contenedor de las tres incursiones -->
     <div
         class="relative h-40 w-40"
-        data-incursion-stage>
+        data-incursion-stage
+    >
         <!-- Incursion Avengers -->
         <div
-            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-doom-green-border bg-doom-black/80 shadow-doom-incursion"
             data-incursion-ball
         >
             <div
-                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+                class="absolute inset-0 rounded-full bg-doom-green-transparent blur-md"
             ></div>
 
             <img
-                src="icons/avengers.svg"
-                alt=""
+                src="/icons/avengers.svg"
+                alt="avengers_logo"
                 aria-hidden="true"
                 class="relative z-10 h-6 w-6 object-contain"
                 draggable="false"
@@ -36,16 +43,16 @@
 
         <!-- Incursion X-Men -->
         <div
-            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-doom-green-border bg-doom-black/80 shadow-doom-incursion"
             data-incursion-ball
         >
             <div
-                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+                class="absolute inset-0 rounded-full bg-doom-green-transparent blur-md"
             ></div>
 
             <img
-                src="icons/xmen.svg"
-                alt=""
+                src="/icons/xmen.svg"
+                alt="xmen_logo"
                 aria-hidden="true"
                 class="relative z-10 h-6 w-6 object-contain"
                 draggable="false"
@@ -54,30 +61,32 @@
 
         <!-- Incursion Fantastic Four -->
         <div
-            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-emerald-400/40 bg-black/80 shadow-[0_0_30px_rgba(16,185,129,0.7)]"
+            class="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-doom-green-border bg-doom-black/80 shadow-doom-incursion"
             data-incursion-ball
         >
             <div
-                class="absolute inset-0 rounded-full bg-emerald-500/20 blur-md"
+                class="absolute inset-0 rounded-full bg-doom-green-transparent blur-md"
             ></div>
 
             <img
-                src="icons/fantastic4.svg"
-                alt=""
+                src="/icons/fantastic4.svg"
+                alt="fantastic-four_logo"
                 aria-hidden="true"
                 class="relative z-10 h-6 w-6 object-contain"
                 draggable="false"
             />
         </div>
     </div>
+
     <!-- Flash de la colision -->
     <div
-        class="pointer-events-none absolute inset-0 bg-emerald-400 opacity-0"
-        data-incursion-flash>
-    </div>
-    <!-- Onda expansiva -->
+        class="pointer-events-none absolute inset-0 bg-doom-green-light opacity-0"
+        data-incursion-flash
+    ></div>
+
+    <!-- Onda expansiva de la colision -->
     <div
-        class="pointer-events-none absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-300 opacity-0"
-        data-incursion-wave>
-    </div>
+        class="pointer-events-none absolute left-1/2 top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border border-doom-green-light opacity-0"
+        data-incursion-wave
+    ></div>
 </div>

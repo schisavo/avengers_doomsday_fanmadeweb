@@ -1,0 +1,37 @@
+---
+import type { GalleryImage } from "../../../data/gallery";
+
+interface Props {
+    image: GalleryImage;
+    index: number;
+}
+
+const { image, index } = Astro.props;
+---
+
+<article
+    class="gallery-card absolute inset-0 h-full w-full overflow-hidden rounded-2xl border border-doom-green/30 bg-doom-black-soft shadow-2xl"
+    data-index={index}
+>
+    <img
+        src={image.src}
+        alt={image.alt}
+        class="card-image h-full w-full object-cover"
+        loading={index === 0 ? "eager" : "lazy"}
+    />
+
+    <!-- Degradado para mejorar la lectura sobre la imagen -->
+    <div
+        class="pointer-events-none absolute inset-0 bg-linear-to-b from-transparent via-transparent to-doom-black/65"
+        aria-hidden="true"
+    ></div>
+
+    <!-- Control para ampliar la imagen -->
+    <button
+        type="button"
+        class="gallery-expand pointer-events-none absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full border border-doom-white/30 bg-doom-black/60 text-xl text-doom-white opacity-0 backdrop-blur-md transition hover:scale-110 hover:bg-doom-green"
+        aria-label={`Ampliar ${image.alt}`}
+    >
+        ⛶
+    </button>
+</article>

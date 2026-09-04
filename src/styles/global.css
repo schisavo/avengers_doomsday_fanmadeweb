@@ -1,32 +1,10 @@
 @import "tailwindcss";
+@import "./theme.css";
+@import "./utilities.css";
 
 
-
-
-/* Scrollbar general */
-::-webkit-scrollbar {
-  width: 10px;   /* grosor vertical */
-  height: 10px;  /* grosor horizontal */
-}
-
-/* Fondo de la barra */
-::-webkit-scrollbar-track {
-  background: #111; /* color de fondo */
-}
-
-/* Thumb (parte que se mueve) */
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #05a85c, #36e236); /* degradado Avengers/Fantastic Four */
-  border-radius: 10px;
-  border: 2px solid #111; /* borde para contraste */
-}
-
-/* Hover en el thumb */
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #05a85c, #36e236); /* cambia a X-Men/Villain */
-}
-/* Color y grosor */
-* {
-  scrollbar-width: thin; /* thin, auto, none */
-  scrollbar-color: #36e236 #111; /* thumb color + track color */
+/* Base global */
+body {
+  margin: 0;
+  min-width: 320px;
 }
